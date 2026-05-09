@@ -120,7 +120,7 @@ Three scenarios with fixture data that makes agent reasoning traceable:
 | `incident_002_config_change` | `config_change` | Feature flag change dropped cache hit rate, causing latency spike |
 | `incident_003_dependency_outage` | `dependency_outage` | Upstream `auth-db` healthcheck failing, cascading to auth-gateway |
 
-Mock tools read deterministic fixture data from `samples/<incident>/fixtures/` — no external API calls.
+Mock tools read deterministic fixture data from `samples/<incident>/fixtures/`, no external API calls.
 
 ## Observability
 
@@ -133,6 +133,8 @@ The agent observes itself. Every LLM call, tool call, and state transition emits
 ```
 
 This makes post-hoc debugging straightforward and demonstrates the eat-your-own-dogfood principle: a tool about observability should itself be observable.
+
+Ideally, we'd next build a light weight agent that investigates this agent. It would have its own infra.
 
 ## Why LLM-as-judge for eval?
 
