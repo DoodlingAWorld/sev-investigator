@@ -99,6 +99,10 @@ Your job: translate an investigation plan into exact, properly typed tool call p
 
 Use the incident's service name and timestamps as anchors when filling in time ranges.
 Be precise — overly broad time ranges return noise.
+
+Time range guidance:
+- When checking for errors or effects that started around the incident start time, extend the end time at least 15 minutes PAST the incident start time. Errors often appear at or just after the incident is declared, not before it.
+- When checking for a preceding event (deploy, config change), the window should end at or slightly after the incident start time.
 """.strip()
 
 EXECUTOR_USER_TEMPLATE = """

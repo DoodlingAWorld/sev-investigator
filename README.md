@@ -103,15 +103,15 @@ Scores each case against a reference report using an LLM-as-judge:
 Evaluating 3 cases...
 
 ── eval_001 (eval-001 · deploy_related)
-   root_cause_accuracy=3/3  evidence_quality=3/3  hypothesis_completeness=2/3  mitigation_utility=3/3  hallucination=3/3  → 14/15
+   root_cause_accuracy=3/3  evidence_quality=3/3  hypothesis_completeness=3/3  mitigation_utility=2/3  hallucination=3/3  → 14/15
 
 ── eval_002 (eval-002 · config_change)
-   root_cause_accuracy=3/3  evidence_quality=3/3  hypothesis_completeness=3/3  mitigation_utility=3/3  hallucination=3/3  → 15/15
+   root_cause_accuracy=3/3  evidence_quality=3/3  hypothesis_completeness=3/3  mitigation_utility=2/3  hallucination=3/3  → 14/15
 
 ── eval_003 (eval-003 · dependency_outage)
-   root_cause_accuracy=3/3  evidence_quality=2/3  hypothesis_completeness=3/3  mitigation_utility=3/3  hallucination=3/3  → 14/15
+   root_cause_accuracy=3/3  evidence_quality=3/3  hypothesis_completeness=3/3  mitigation_utility=2/3  hallucination=3/3  → 14/15
 
-Aggregate: 43/45 (95%)
+Aggregate: 42/45 (93%)
 ```
 
 ## Sample incidents
@@ -131,11 +131,11 @@ Mock tools read deterministic fixture data from `samples/<incident>/fixtures/`. 
 The agent observes itself. Every LLM call, tool call, and state transition emits a structured event to `traces/{run_id}.jsonl`:
 
 ```json
-{"timestamp": "2026-04-15T14:31:08.719037+00:00", "event_type": "planner_call",
+{"timestamp": "2026-05-09T23:12:07.036310+00:00", "event_type": "planner_call",
  "span_id": "planner-0", "parent_span_id": "coordinator",
  "payload": {"step": 0, "action": "investigate", "next_tool": "get_recent_deploys",
-             "reasoning": "Check whether a deploy preceded the incident."},
- "tokens": {"prompt": 628, "completion": 73}, "latency_ms": 2329.0}
+             "reasoning": "The incident description indicates that a deploy landed shortly before the error spike began, so checking the recent deploys will provide foundational context for the investigation."},
+ "tokens": {"prompt": 633, "completion": 72}, "latency_ms": 1437.0}
 ```
 
 The span hierarchy (`coordinator` → `planner-N` → `executor-N` → `tool-N` → `synthesizer`) lets you reconstruct the full investigation tree and answer questions like: how many tokens did each step cost? Which tool call took longest? A full example trace is at `samples/example_trace.jsonl`.
