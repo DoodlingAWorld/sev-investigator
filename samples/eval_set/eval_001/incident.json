@@ -1,0 +1,9 @@
+{
+  "id": "eval-001",
+  "title": "catalog-service 5xx spike after deploy",
+  "type": "deploy_related",
+  "service": "catalog-service",
+  "started_at": "2026-05-03T09:15:00",
+  "description": "Error rate on catalog-service spiked to ~15% at 09:15 UTC. Search and product detail pages are returning 500s. A deploy landed shortly before.",
+  "severity": "sev2"
+}

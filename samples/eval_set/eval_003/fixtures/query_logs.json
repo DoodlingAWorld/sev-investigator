@@ -1,0 +1,13 @@
+{
+  "notification-service": [
+    {"timestamp": "2026-05-11T11:20:00", "level": "INFO",  "message": "Notification delivered, id=notif-5521, channel=email, latency=38ms"},
+    {"timestamp": "2026-05-11T11:21:00", "level": "INFO",  "message": "Notification delivered, id=notif-5522, channel=push, latency=41ms"},
+    {"timestamp": "2026-05-11T11:22:01", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"},
+    {"timestamp": "2026-05-11T11:22:04", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"},
+    {"timestamp": "2026-05-11T11:22:08", "level": "INFO",  "message": "Notification delivered (fallback path), id=notif-5525, channel=sms, latency=312ms"},
+    {"timestamp": "2026-05-11T11:22:13", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"},
+    {"timestamp": "2026-05-11T11:23:00", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"},
+    {"timestamp": "2026-05-11T11:23:14", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"},
+    {"timestamp": "2026-05-11T11:24:00", "level": "ERROR", "message": "Connection refused to message-queue: ECONNREFUSED 127.0.0.1:5672"}
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "eval-002",
+  "title": "recommendation-engine latency degradation",
+  "type": "config_change",
+  "service": "recommendation-engine",
+  "started_at": "2026-05-07T14:30:00",
+  "description": "P99 latency on recommendation-engine jumped above 2000ms at 14:30 UTC. Recommendations are loading slowly. No recent code deploys.",
+  "severity": "sev2"
+}

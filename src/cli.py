@@ -9,6 +9,7 @@ from rich.console import Console
 load_dotenv()
 
 from sev_investigator.agent import coordinator
+from sev_investigator.eval import runner
 from sev_investigator.schemas.incident import IncidentEvent
 
 app = typer.Typer(help="Investigate production incidents with a multi-step LLM agent.")
@@ -48,7 +49,11 @@ def eval_cmd(
     eval_dir: Path = typer.Argument(..., help="Directory containing eval cases"),
 ) -> None:
     """Score the agent against a labeled eval set using an LLM-as-judge."""
-    _console.print("[dim]Eval harness not yet implemented.[/dim]")
+    if not eval_dir.exists():
+        _console.print(f"[red]Error:[/red] eval directory not found: {eval_dir}")
+        raise typer.Exit(1)
+
+    runner.run(eval_dir)
 
 
 if __name__ == "__main__":

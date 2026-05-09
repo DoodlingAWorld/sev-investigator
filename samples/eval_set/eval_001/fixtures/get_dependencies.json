@@ -1,0 +1,8 @@
+{
+  "catalog-service": [
+    {"name": "catalog-db",     "type": "database", "health": "healthy"},
+    {"name": "image-store",    "type": "service",  "health": "healthy"},
+    {"name": "search-index",   "type": "service",  "health": "healthy"},
+    {"name": "product-cache",  "type": "cache",    "health": "healthy"}
+  ]
+}

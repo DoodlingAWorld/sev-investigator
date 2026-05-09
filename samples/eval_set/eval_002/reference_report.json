@@ -1,0 +1,14 @@
+{
+  "root_cause": "A configuration change setting max_cache_ttl_seconds to 0 at 14:30 disabled caching on recommendation-engine, forcing all requests to hit the database directly and driving P99 latency above 2000ms.",
+  "key_evidence": [
+    "Config change at 14:30: max_cache_ttl_seconds changed from 3600 to 0",
+    "Latency_p99 spike from ~110ms to ~2400ms starting at 14:30",
+    "No recent deploys for recommendation-engine",
+    "All upstream dependencies healthy"
+  ],
+  "expected_mitigations": [
+    "Revert max_cache_ttl_seconds to 3600 immediately",
+    "Add input validation to prevent zero or negative TTL values in production"
+  ],
+  "notes": "The config change timestamp and the latency spike timestamp should match exactly. No deploy or dependency outage to confuse the diagnosis."
+}

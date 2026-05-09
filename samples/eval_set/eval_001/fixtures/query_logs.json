@@ -1,0 +1,13 @@
+{
+  "catalog-service": [
+    {"timestamp": "2026-05-03T09:10:00", "level": "INFO",  "message": "Search request completed, query='running shoes', results=24, latency=88ms"},
+    {"timestamp": "2026-05-03T09:12:00", "level": "INFO",  "message": "Deploy started: version=v3.1.0"},
+    {"timestamp": "2026-05-03T09:12:18", "level": "INFO",  "message": "Deploy completed: version=v3.1.0, instances=3/3 healthy"},
+    {"timestamp": "2026-05-03T09:15:03", "level": "ERROR", "message": "TemplateRenderException in ProductCard.render(): NoneType has no attribute 'image_url'"},
+    {"timestamp": "2026-05-03T09:15:07", "level": "ERROR", "message": "TemplateRenderException in ProductCard.render(): NoneType has no attribute 'image_url'"},
+    {"timestamp": "2026-05-03T09:15:11", "level": "INFO",  "message": "Search request completed, query='headphones', results=18, latency=91ms"},
+    {"timestamp": "2026-05-03T09:15:19", "level": "ERROR", "message": "TemplateRenderException in ProductCard.render(): NoneType has no attribute 'image_url'"},
+    {"timestamp": "2026-05-03T09:16:02", "level": "ERROR", "message": "TemplateRenderException in ProductCard.render(): NoneType has no attribute 'image_url'"},
+    {"timestamp": "2026-05-03T09:16:15", "level": "ERROR", "message": "TemplateRenderException in ProductCard.render(): NoneType has no attribute 'image_url'"}
+  ]
+}

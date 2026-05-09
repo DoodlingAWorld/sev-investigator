@@ -1,0 +1,7 @@
+{
+  "recommendation-engine": [
+    {"name": "recommendation-db", "type": "database", "health": "healthy"},
+    {"name": "user-profile-svc",  "type": "service",  "health": "healthy"},
+    {"name": "rec-cache",         "type": "cache",    "health": "healthy"}
+  ]
+}

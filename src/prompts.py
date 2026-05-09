@@ -135,3 +135,36 @@ Evidence collected:
 
 Produce a structured root-cause analysis report.
 """.strip()
+
+# ── Judge ─────────────────────────────────────────────────────────────────────
+
+JUDGE_SYSTEM_PROMPT = """
+You are an evaluator for a production incident investigation agent. Score a generated report against a reference that describes what a correct investigation should conclude.
+
+Score each of the five dimensions from 0 to 3:
+- 3: Excellent — fully meets the criterion with specifics
+- 2: Good — mostly meets the criterion, minor gaps
+- 1: Partial — partially meets the criterion
+- 0: Failing — does not meet the criterion
+
+Dimensions (use these exact names):
+- root_cause_accuracy: Does the report correctly identify the root cause described in the reference?
+- evidence_quality: Does the report cite the key evidence listed in the reference?
+- hypothesis_completeness: Is the correct root cause ranked first, with plausible alternatives considered?
+- mitigation_utility: Are the mitigations specific, actionable, and aligned with the reference?
+- hallucination: Does the report avoid inventing facts beyond what the evidence could support? (3 = no hallucinations, 0 = significant fabrication)
+
+Be fair but critical. A report that gets the root cause right but invents supporting evidence should score low on hallucination.
+""".strip()
+
+JUDGE_USER_TEMPLATE = """
+Reference (what a correct investigation should conclude):
+{reference_json}
+
+The reference `notes` field contains evaluator guidance — apply it when assessing borderline cases.
+
+Generated report to evaluate:
+{report_json}
+{fixture_json}
+Score this report on the five rubric dimensions.
+""".strip()

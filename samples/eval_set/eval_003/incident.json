@@ -1,0 +1,9 @@
+{
+  "id": "eval-003",
+  "title": "notification-service delivery failures",
+  "type": "dependency_outage",
+  "service": "notification-service",
+  "started_at": "2026-05-11T11:22:00",
+  "description": "notification-service is failing to deliver ~95% of notifications starting at 11:22 UTC. No recent deploys or config changes.",
+  "severity": "sev1"
+}

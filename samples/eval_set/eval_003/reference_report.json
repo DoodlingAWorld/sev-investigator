@@ -1,0 +1,15 @@
+{
+  "root_cause": "The message-queue dependency of notification-service went down at 11:22, causing all notification delivery attempts to fail with connection refused errors.",
+  "key_evidence": [
+    "message-queue dependency reported as down in get_dependencies",
+    "ERROR logs showing 'Connection refused to message-queue' starting at 11:22",
+    "Error rate spike from <0.5% to ~95% at 11:22",
+    "No recent deploys or config changes for notification-service"
+  ],
+  "expected_mitigations": [
+    "Investigate and restore the message-queue service immediately",
+    "Implement a dead-letter queue and retry mechanism for failed notifications",
+    "Add a circuit breaker so notification-service degrades gracefully when the queue is down"
+  ],
+  "notes": "The ~95% error rate (not 100%) indicates a small number of notifications are succeeding via a fallback path. The message-queue is fully down, not degraded."
+}

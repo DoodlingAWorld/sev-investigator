@@ -86,13 +86,15 @@ def test_tool_result_discriminated_union() -> None:
 
 def test_judge_output_computed_totals() -> None:
     scores = [
-        RubricScore(dimension = "root_cause", score = 3, reasoning = "correct"),
-        RubricScore(dimension = "evidence", score = 2, reasoning = "adequate"),
-        RubricScore(dimension = "mitigations", score = 1, reasoning = "generic"),
+        RubricScore(dimension = "root_cause_accuracy",      score = 3, reasoning = "correct"),
+        RubricScore(dimension = "evidence_quality",         score = 2, reasoning = "adequate"),
+        RubricScore(dimension = "hypothesis_completeness",  score = 1, reasoning = "partial"),
+        RubricScore(dimension = "mitigation_utility",       score = 3, reasoning = "actionable"),
+        RubricScore(dimension = "hallucination",            score = 3, reasoning = "no hallucinations"),
     ]
-    judge = JudgeOutput(scores = scores, overall_assessment = "good")
-    assert judge.total == 6
-    assert judge.max_total == 9
+    output = JudgeOutput(scores = scores, overall_assessment = "good")
+    assert output.total == 12
+    assert output.max_total == 15  # always 5 dimensions × 3
 
 
 def test_synthesizer_output_propagates_to_report() -> None:

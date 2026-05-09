@@ -1,0 +1,8 @@
+{
+  "notification-service": [
+    {"name": "message-queue",   "type": "queue",    "health": "down"},
+    {"name": "user-service",    "type": "service",  "health": "healthy"},
+    {"name": "template-store",  "type": "service",  "health": "healthy"},
+    {"name": "delivery-cache",  "type": "cache",    "health": "healthy"}
+  ]
+}

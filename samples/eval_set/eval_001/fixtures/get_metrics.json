@@ -1,0 +1,30 @@
+{
+  "catalog-service": {
+    "error_rate": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-05-03T09:10:00", "value": 0.3},
+        {"timestamp": "2026-05-03T09:11:00", "value": 0.2},
+        {"timestamp": "2026-05-03T09:12:00", "value": 0.3},
+        {"timestamp": "2026-05-03T09:13:00", "value": 0.4},
+        {"timestamp": "2026-05-03T09:14:00", "value": 0.3},
+        {"timestamp": "2026-05-03T09:15:00", "value": 14.8},
+        {"timestamp": "2026-05-03T09:16:00", "value": 15.2},
+        {"timestamp": "2026-05-03T09:17:00", "value": 14.9}
+      ]
+    },
+    "latency_p99": {
+      "unit": "ms",
+      "points": [
+        {"timestamp": "2026-05-03T09:10:00", "value": 92},
+        {"timestamp": "2026-05-03T09:11:00", "value": 88},
+        {"timestamp": "2026-05-03T09:12:00", "value": 91},
+        {"timestamp": "2026-05-03T09:13:00", "value": 89},
+        {"timestamp": "2026-05-03T09:14:00", "value": 93},
+        {"timestamp": "2026-05-03T09:15:00", "value": 4821},
+        {"timestamp": "2026-05-03T09:16:00", "value": 4934},
+        {"timestamp": "2026-05-03T09:17:00", "value": 4788}
+      ]
+    }
+  }
+}

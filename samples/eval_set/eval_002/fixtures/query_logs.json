@@ -1,0 +1,11 @@
+{
+  "recommendation-engine": [
+    {"timestamp": "2026-05-07T14:28:00", "level": "INFO",    "message": "Recommendations served, user=usr-2291, latency=108ms"},
+    {"timestamp": "2026-05-07T14:29:00", "level": "INFO",    "message": "Recommendations served, user=usr-2292, latency=112ms"},
+    {"timestamp": "2026-05-07T14:30:00", "level": "INFO",    "message": "Config updated: max_cache_ttl_seconds=0"},
+    {"timestamp": "2026-05-07T14:30:45", "level": "WARNING", "message": "Slow recommendation response, user=usr-2293, latency=1891ms"},
+    {"timestamp": "2026-05-07T14:31:00", "level": "WARNING", "message": "Slow recommendation response, user=usr-2294, latency=2341ms"},
+    {"timestamp": "2026-05-07T14:32:00", "level": "WARNING", "message": "Slow recommendation response, user=usr-2295, latency=2489ms"},
+    {"timestamp": "2026-05-07T14:33:00", "level": "WARNING", "message": "Slow recommendation response, user=usr-2296, latency=2398ms"}
+  ]
+}

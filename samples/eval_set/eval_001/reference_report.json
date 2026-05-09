@@ -1,0 +1,14 @@
+{
+  "root_cause": "A deploy for catalog-service at 09:12 introduced a rendering bug that caused 5xx errors on search and product detail pages starting at 09:15.",
+  "key_evidence": [
+    "Deploy event at 09:12 for catalog-service (commit d4e9b12, feat: redesign product card rendering)",
+    "ERROR logs showing TemplateRenderException starting at 09:15",
+    "Error rate spike from <0.5% to ~15% at 09:15, coinciding with the deploy",
+    "No configuration changes or unhealthy dependencies"
+  ],
+  "expected_mitigations": [
+    "Rollback the deploy to the previous version immediately",
+    "Fix the rendering bug in the product card template and redeploy after testing"
+  ],
+  "notes": "The 3-minute gap between deploy and errors is the primary causal signal. Config diff and dependencies must both be clean for a confident deploy_related diagnosis."
+}

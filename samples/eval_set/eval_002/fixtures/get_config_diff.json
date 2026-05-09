@@ -1,0 +1,11 @@
+{
+  "recommendation-engine": [
+    {
+      "changed_at": "2026-05-07T14:30:00",
+      "key": "max_cache_ttl_seconds",
+      "old_value": "3600",
+      "new_value": "0",
+      "changed_by": "config-deploy-bot"
+    }
+  ]
+}
