@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 from sev_investigator.skills.base import Skill
+from sev_investigator.skills.config_change import ConfigChangeSkill
+from sev_investigator.skills.dependency_outage import DependencyOutageSkill
 from sev_investigator.skills.deploy_related import DeployRelatedSkill
 from sev_investigator.tools import TOOL_REGISTRY
 
 SKILL_REGISTRY: dict[str, type[Skill]] = {
     DeployRelatedSkill.name: DeployRelatedSkill,
+    ConfigChangeSkill.name: ConfigChangeSkill,
+    DependencyOutageSkill.name: DependencyOutageSkill,
 }
 
 # Validate that every skill's tool_whitelist only references tools that exist.
