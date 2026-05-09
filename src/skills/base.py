@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import ClassVar
 
 
 class Skill(ABC):
     """Base class for incident-type-specific investigation strategies."""
 
-    name: str
-    description: str
-    tool_whitelist: list[str]
+    name: ClassVar[str]
+    description: ClassVar[str]
+    tool_whitelist: ClassVar[list[str]]
 
     @property
     @abstractmethod

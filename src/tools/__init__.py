@@ -4,7 +4,7 @@ from typing import Any, Callable
 
 from pydantic import BaseModel
 
-from sev_investigator.tools._config import set_fixtures_dir
+from sev_investigator.tools._config import set_fixtures_dir as set_fixtures_dir
 from sev_investigator.tools.get_config_diff import get_config_diff
 from sev_investigator.tools.get_dependencies import get_dependencies
 from sev_investigator.tools.get_metrics import get_metrics
