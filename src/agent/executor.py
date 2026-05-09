@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import json
-
 from pydantic import TypeAdapter
 
 from sev_investigator.llm import parse, system_msg, user_msg
@@ -26,7 +24,6 @@ def run(plan: ToolCallPlan, state: AgentState) -> Evidence:
         .replace("{incident_json}", state.incident.model_dump_json(indent = 2))
         .replace("{tool}", plan.tool)
         .replace("{rationale}", plan.rationale)
-        .replace("{args_json}", json.dumps(plan.args, indent = 2))
     )
 
     tool_input = parse(

@@ -68,7 +68,6 @@ Incident:
 
 Tool to call: {tool}
 Reason: {rationale}
-Planner's suggested parameters: {args_json}
 
 Produce the exact parameters for this tool call.
 """.strip()
