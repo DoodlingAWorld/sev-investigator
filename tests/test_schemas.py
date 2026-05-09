@@ -70,7 +70,7 @@ def test_planner_decision_synthesize_allows_no_next_step() -> None:
 
 
 def test_planner_decision_investigate_with_next_step() -> None:
-    plan = ToolCallPlan(tool = "query_logs", rationale = "check logs", args = {})
+    plan = ToolCallPlan(tool = "query_logs", rationale = "check logs")
     decision = PlannerDecision(action = "investigate", next_step = plan, reasoning = "need logs")
     assert decision.next_step is not None
     assert decision.next_step.tool == "query_logs"

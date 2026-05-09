@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from sev_investigator.schemas.incident import IncidentEvent
 from sev_investigator.schemas.tools import ToolResult
@@ -12,13 +12,17 @@ from sev_investigator.schemas.tools import ToolResult
 
 class ToolCallPlan(BaseModel):
     """What the planner wants the executor to investigate next."""
+
+    model_config = ConfigDict(extra = "forbid")
+
     tool: str
     rationale: str
-    args: dict[str, Any]
 
 
 class PlannerDecision(BaseModel):
     """Structured output of a single planner LLM call."""
+
+    model_config = ConfigDict(extra = "forbid")
 
     action: Literal["investigate", "synthesize"]
     next_step: ToolCallPlan | None = None

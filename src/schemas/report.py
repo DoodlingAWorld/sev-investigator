@@ -3,10 +3,12 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class RootCauseHypothesis(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     description: str
     confidence: float = Field(ge=0.0, le=1.0)
     supporting_evidence: list[str]
@@ -14,6 +16,8 @@ class RootCauseHypothesis(BaseModel):
 
 
 class Mitigation(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     action: str
     priority: Literal["immediate", "short_term", "long_term"]
     rationale: str
@@ -21,6 +25,8 @@ class Mitigation(BaseModel):
 
 class SynthesizerOutput(BaseModel):
     """The LLM-produced content of a report. System fields (run_id, incident_id) are applied after."""
+
+    model_config = ConfigDict(extra = "forbid")
 
     timeline: list[str]
     hypotheses: list[RootCauseHypothesis]

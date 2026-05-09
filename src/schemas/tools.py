@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Annotated, Literal, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ── Log querying ──────────────────────────────────────────────────────────────
@@ -18,6 +18,8 @@ class LogEntry(BaseModel):
 
 
 class QueryLogsInput(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     service: str
     start: datetime
     end: datetime
@@ -41,6 +43,8 @@ class DeployEvent(BaseModel):
 
 
 class GetRecentDeploysInput(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     service: str
     since: datetime
     until: datetime | None = None
@@ -63,6 +67,8 @@ class ConfigChange(BaseModel):
 
 
 class GetConfigDiffInput(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     service: str
     since: datetime
     until: datetime | None = None
@@ -83,6 +89,8 @@ class Dependency(BaseModel):
 
 
 class GetDependenciesInput(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     service: str
 
 
@@ -103,6 +111,8 @@ MetricName = Literal["error_rate", "latency_p50", "latency_p99", "request_rate",
 
 
 class GetMetricsInput(BaseModel):
+    model_config = ConfigDict(extra = "forbid")
+
     service: str
     metric: MetricName
     start: datetime
