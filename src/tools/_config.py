@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime
 from pathlib import Path
 
 _fixtures_dir: Path | None = None
@@ -17,3 +18,8 @@ def get_fixtures_dir() -> Path:
             "Fixtures directory not configured. Call set_fixtures_dir() before using tools."
         )
     return _fixtures_dir
+
+
+def to_naive(dt: datetime) -> datetime:
+    """Strip timezone info so LLM-supplied aware datetimes can be compared with naive fixture timestamps."""
+    return dt.replace(tzinfo=None)

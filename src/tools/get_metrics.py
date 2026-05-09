@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import cast
 
 from sev_investigator.schemas.tools import GetMetricsInput, GetMetricsResult, MetricPoint
-from sev_investigator.tools._config import get_fixtures_dir
+from sev_investigator.tools._config import get_fixtures_dir, to_naive
 
 
 def get_metrics(metrics_input: GetMetricsInput) -> GetMetricsResult:
@@ -17,10 +17,13 @@ def get_metrics(metrics_input: GetMetricsInput) -> GetMetricsResult:
     unit = str(metric_data.get("unit") or "")
     raw_points = cast(list[dict[str, object]], metric_data.get("points", []))
 
+    start = to_naive(metrics_input.start)
+    end   = to_naive(metrics_input.end)
+
     points = [
         MetricPoint.model_validate(p)
         for p in raw_points
-        if metrics_input.start <= datetime.fromisoformat(str(p["timestamp"])) <= metrics_input.end
+        if start <= datetime.fromisoformat(str(p["timestamp"])) <= end
     ]
 
     return GetMetricsResult(service = metrics_input.service, metric = metrics_input.metric, unit = unit, points = points)
