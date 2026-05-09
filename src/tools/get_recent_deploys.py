@@ -21,4 +21,4 @@ def get_recent_deploys(recent_input: GetRecentDeploysInput) -> GetRecentDeploysR
         and (until is None or datetime.fromisoformat(str(d["deployed_at"])) <= until)
     ]
 
-    return GetRecentDeploysResult(service = recent_input.service, deploys=deploys)
+    return GetRecentDeploysResult(service = recent_input.service, deploys = deploys)

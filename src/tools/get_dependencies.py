@@ -6,11 +6,11 @@ from sev_investigator.schemas.tools import Dependency, GetDependenciesInput, Get
 from sev_investigator.tools._config import get_fixtures_dir
 
 
-def get_dependencies(dep_inp: GetDependenciesInput) -> GetDependenciesResult:
+def get_dependencies(dep_input: GetDependenciesInput) -> GetDependenciesResult:
     """Return the dependency graph for a service, loaded from fixture data."""
     fixture_path = get_fixtures_dir() / "get_dependencies.json"
     raw: dict[str, list[dict[str, object]]] = json.loads(fixture_path.read_text())
 
-    dependencies = [Dependency.model_validate(d) for d in raw.get(dep_inp.service, [])]
+    dependencies = [Dependency.model_validate(d) for d in raw.get(dep_input.service, [])]
 
-    return GetDependenciesResult(service = dep_inp.service, dependencies = dependencies)
+    return GetDependenciesResult(service = dep_input.service, dependencies = dependencies)

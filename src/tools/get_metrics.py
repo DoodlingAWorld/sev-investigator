@@ -8,19 +8,19 @@ from sev_investigator.schemas.tools import GetMetricsInput, GetMetricsResult, Me
 from sev_investigator.tools._config import get_fixtures_dir
 
 
-def get_metrics(metrics_inp: GetMetricsInput) -> GetMetricsResult:
+def get_metrics(metrics_input: GetMetricsInput) -> GetMetricsResult:
     """Return time-series metric data for a service, loaded from fixture data."""
     fixture_path = get_fixtures_dir() / "get_metrics.json"
     raw: dict[str, dict[str, dict[str, object]]] = json.loads(fixture_path.read_text())
 
-    metric_data = raw.get(metrics_inp.service, {}).get(metrics_inp.metric, {})
+    metric_data = raw.get(metrics_input.service, {}).get(metrics_input.metric, {})
     unit = str(metric_data.get("unit") or "")
     raw_points = cast(list[dict[str, object]], metric_data.get("points", []))
 
     points = [
         MetricPoint.model_validate(p)
         for p in raw_points
-        if metrics_inp.start <= datetime.fromisoformat(str(p["timestamp"])) <= metrics_inp.end
+        if metrics_input.start <= datetime.fromisoformat(str(p["timestamp"])) <= metrics_input.end
     ]
 
-    return GetMetricsResult(service = metrics_inp.service, metric = metrics_inp.metric, unit = unit, points = points)
+    return GetMetricsResult(service = metrics_input.service, metric = metrics_input.metric, unit = unit, points = points)

@@ -17,4 +17,4 @@ def query_logs(query_input: QueryLogsInput) -> QueryLogsResult:
     if query_input.level is not None:
         entries = [e for e in entries if e.level == query_input.level]
 
-    return QueryLogsResult(service = query_input.service, entries=entries)
+    return QueryLogsResult(service = query_input.service, entries = entries)
