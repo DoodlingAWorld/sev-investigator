@@ -24,8 +24,17 @@ dev = [
     "mypy>=1.10",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+packages = [
+    "sev_investigator",
+    "sev_investigator.schemas",
+    "sev_investigator.tools",
+    "sev_investigator.skills",
+    "sev_investigator.agent",
+    "sev_investigator.traces",
+    "sev_investigator.eval",
+]
+package-dir = {"sev_investigator" = "src"}
 
 [tool.mypy]
 strict = true
