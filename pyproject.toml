@@ -23,6 +23,10 @@ dev = [
     "pytest-mock>=3.14",
     "mypy>=1.10",
 ]
+ui = [
+    "streamlit>=1.35",
+    "plotly>=5.0",
+]
 
 [tool.setuptools]
 packages = [

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -13,6 +14,8 @@ from sev_investigator.schemas.report import InvestigationReport
 from sev_investigator.skills import get_skill
 from sev_investigator.tools import set_fixtures_dir
 from sev_investigator.traces.recorder import Recorder
+
+_REPORTS_DIR = Path(__file__).parent.parent.parent / "reports"
 
 _console = Console()
 
@@ -92,8 +95,15 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
             parent_span_id = "coordinator",
         )
 
+    _persist_report(report)
     _console.print(f"\n[bold green]✓ Done[/bold green]  run_id={report.run_id}\n")
     return report
+
+
+def _persist_report(report: InvestigationReport) -> None:
+    _REPORTS_DIR.mkdir(exist_ok=True)
+    out = _REPORTS_DIR / f"{report.run_id}.json"
+    out.write_text(json.dumps(report.model_dump(mode="json"), indent=2))
 
 
 def _fmt_args(args: dict[str, Any]) -> str:

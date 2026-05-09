@@ -60,7 +60,8 @@ The coordinator runs up to 8 planner→executor iterations. All LLM outputs are 
 ```bash
 git clone https://github.com/your-username/sev-investigator
 cd sev-investigator
-pip install -e ".[dev]"
+pip install -e ".[dev]"       # core + tests
+pip install -e ".[dev,ui]"    # also includes Streamlit UI
 
 cp .env.example .env
 # Add your OPENAI_API_KEY to .env
@@ -114,6 +115,19 @@ Evaluating 3 cases...
 Aggregate: 42/45 (93%)
 ```
 
+**Browse traces and reports in the UI:**
+
+```bash
+streamlit run ui.py
+```
+
+Opens at `http://localhost:8501`. Select any past run from the sidebar to see:
+
+- **Trace view**: each planner/executor/tool step as an expandable card with reasoning, token counts, and latency, plus a token usage chart across all spans
+- **Report view**: synthesized summary, timeline, ranked hypotheses, and mitigations sorted by priority
+
+Each investigation writes a `reports/{run_id}.json` file alongside its trace so the UI can load both without re-running anything.
+
 ## Sample incidents
 
 Three main scenarios and three eval cases, each with deterministic fixture data so the agent's reasoning is fully traceable:
@@ -165,9 +179,11 @@ src/
 ├── agent/              # coordinator, planner, executor, synthesizer
 ├── traces/             # Trace recorder (JSONL)
 └── eval/               # LLM-as-judge runner
+ui.py                   # Streamlit UI for browsing traces and reports
 samples/
 ├── incident_00{1,2,3}*/       # Main incidents + fixtures
 └── eval_set/eval_00{1,2,3}/   # Eval cases with reference reports
+reports/                # Generated reports (gitignored, paired with traces/)
 tests/                  # pytest; LLM is always mocked
 ```
 
