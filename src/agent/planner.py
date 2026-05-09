@@ -7,9 +7,12 @@ from sev_investigator.llm import parse, system_msg, user_msg
 from sev_investigator.prompts import PLANNER_SYSTEM_PROMPT, PLANNER_USER_TEMPLATE
 from sev_investigator.schemas.agent_state import AgentState, PlannerDecision
 from sev_investigator.skills.base import Skill
+from sev_investigator.traces.recorder import NullRecorder, Recorder
+
+_NULL = NullRecorder()
 
 
-def run(state: AgentState, skill: Skill) -> PlannerDecision:
+def run(state: AgentState, skill: Skill, recorder: Recorder = _NULL) -> PlannerDecision:
     """Decide what to investigate next, or whether to synthesize."""
     evidence_str = (
         json.dumps([e.model_dump(mode = "json") for e in state.evidence], indent = 2)
@@ -27,7 +30,24 @@ def run(state: AgentState, skill: Skill) -> PlannerDecision:
         .replace("{evidence_str}", evidence_str)
     )
 
-    return parse(
+    response = parse(
         messages = [system_msg(system), user_msg(user)],
         response_format = PlannerDecision,
-    ).result
+    )
+    decision = response.result
+
+    recorder.emit(
+        "planner_call",
+        payload = {
+            "step": state.step_count,
+            "action": decision.action,
+            "reasoning": decision.reasoning,
+            "next_tool": decision.next_step.tool if decision.next_step else None,
+        },
+        span_id = f"planner-{state.step_count}",
+        parent_span_id = "coordinator",
+        tokens = {"prompt": response.prompt_tokens, "completion": response.completion_tokens},
+        latency_ms = response.latency_ms,
+    )
+
+    return decision
