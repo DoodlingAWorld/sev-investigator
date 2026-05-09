@@ -25,7 +25,7 @@ from sev_investigator.schemas.agent_state import (
     PlannerDecision,
     ToolCallPlan,
 )
-from sev_investigator.schemas.report import InvestigationReport, Mitigation, RootCauseHypothesis
+from sev_investigator.schemas.report import InvestigationReport, Mitigation, RootCauseHypothesis, SynthesizerOutput
 from sev_investigator.schemas.eval import EvalResult, JudgeOutput, RubricScore
 
 __all__ = [
@@ -54,6 +54,7 @@ __all__ = [
     "AgentState",
     "RootCauseHypothesis",
     "Mitigation",
+    "SynthesizerOutput",
     "InvestigationReport",
     "RubricScore",
     "JudgeOutput",

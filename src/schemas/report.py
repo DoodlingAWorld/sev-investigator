@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -19,6 +19,15 @@ class Mitigation(BaseModel):
     rationale: str
 
 
+class SynthesizerOutput(BaseModel):
+    """The LLM-produced content of a report. System fields (run_id, incident_id) are applied after."""
+
+    timeline: list[str]
+    hypotheses: list[RootCauseHypothesis]
+    mitigations: list[Mitigation]
+    summary: str
+
+
 class InvestigationReport(BaseModel):
     """Final structured output of a completed investigation."""
 
@@ -28,4 +37,4 @@ class InvestigationReport(BaseModel):
     hypotheses: list[RootCauseHypothesis]
     mitigations: list[Mitigation]
     summary: str
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(tz=timezone.utc))

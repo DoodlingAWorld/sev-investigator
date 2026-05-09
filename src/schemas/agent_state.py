@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field, model_validator
@@ -37,7 +37,7 @@ class Evidence(BaseModel):
     tool: str
     args: dict[str, Any]
     result: ToolResult
-    collected_at: datetime = Field(default_factory=datetime.utcnow)
+    collected_at: datetime = Field(default_factory=lambda: datetime.now(tz=timezone.utc))
 
 
 class AgentState(BaseModel):
@@ -48,4 +48,4 @@ class AgentState(BaseModel):
     skill_name: str
     evidence: list[Evidence] = Field(default_factory=list)
     step_count: int = 0
-    started_at: datetime = Field(default_factory=datetime.utcnow)
+    started_at: datetime = Field(default_factory=lambda: datetime.now(tz=timezone.utc))
