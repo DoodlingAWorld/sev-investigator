@@ -1,0 +1,18 @@
+{
+  "order-service": [
+    {
+      "deployed_at": "2026-04-15T14:23:00",
+      "commit_hash": "a3f8c21",
+      "files_changed": 7,
+      "deployed_by": "deploy-bot",
+      "description": "feat: apply promotional code discounts at checkout"
+    },
+    {
+      "deployed_at": "2026-04-14T09:45:00",
+      "commit_hash": "b7e2d94",
+      "files_changed": 3,
+      "deployed_by": "deploy-bot",
+      "description": "fix: increase connection pool timeout for order-db"
+    }
+  ]
+}

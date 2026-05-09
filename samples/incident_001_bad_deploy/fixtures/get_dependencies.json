@@ -1,0 +1,9 @@
+{
+  "order-service": [
+    {"name": "order-db",          "type": "database", "health": "healthy"},
+    {"name": "payment-service",   "type": "service",  "health": "healthy"},
+    {"name": "inventory-service", "type": "service",  "health": "healthy"},
+    {"name": "promo-service",     "type": "service",  "health": "healthy"},
+    {"name": "session-cache",     "type": "cache",    "health": "healthy"}
+  ]
+}

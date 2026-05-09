@@ -1,0 +1,9 @@
+{
+  "id": "inc-001",
+  "title": "order-service 5xx spike",
+  "type": "deploy_related",
+  "service": "order-service",
+  "started_at": "2026-04-15T14:25:00",
+  "description": "Error rate on order-service spiked to ~12% at 14:25 UTC. Checkout requests are failing with 500s. On-call paged.",
+  "severity": "sev2"
+}

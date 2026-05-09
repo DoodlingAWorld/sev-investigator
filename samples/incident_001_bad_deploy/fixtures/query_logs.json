@@ -1,0 +1,23 @@
+{
+  "order-service": [
+    {"timestamp": "2026-04-15T14:20:00", "level": "INFO",  "message": "Order checkout completed, id=ord-7819, total=42.00"},
+    {"timestamp": "2026-04-15T14:21:15", "level": "INFO",  "message": "Order checkout completed, id=ord-7820, total=118.50"},
+    {"timestamp": "2026-04-15T14:22:44", "level": "INFO",  "message": "Order checkout completed, id=ord-7821, total=29.99"},
+    {"timestamp": "2026-04-15T14:23:01", "level": "INFO",  "message": "Deploy started: version=v2.4.1"},
+    {"timestamp": "2026-04-15T14:23:18", "level": "INFO",  "message": "Deploy completed: version=v2.4.1, instances=4/4 healthy"},
+    {"timestamp": "2026-04-15T14:24:02", "level": "INFO",  "message": "Order checkout completed, id=ord-7822, total=55.00"},
+    {"timestamp": "2026-04-15T14:24:39", "level": "INFO",  "message": "Order checkout completed, id=ord-7823, total=19.99"},
+    {"timestamp": "2026-04-15T14:25:03", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:25:07", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:25:09", "level": "INFO",  "message": "Order checkout completed, id=ord-7824, total=88.00"},
+    {"timestamp": "2026-04-15T14:25:14", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:25:21", "level": "INFO",  "message": "Order checkout completed, id=ord-7825, total=34.50"},
+    {"timestamp": "2026-04-15T14:25:33", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:26:01", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:26:18", "level": "INFO",  "message": "Order checkout completed, id=ord-7826, total=67.25"},
+    {"timestamp": "2026-04-15T14:26:45", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:27:02", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"},
+    {"timestamp": "2026-04-15T14:27:19", "level": "INFO",  "message": "Order checkout completed, id=ord-7827, total=91.00"},
+    {"timestamp": "2026-04-15T14:27:44", "level": "ERROR", "message": "Unhandled exception in OrderProcessor.handle(): NullPointerException: Cannot read field 'discountPct' of null (promoCode was null)"}
+  ]
+}
