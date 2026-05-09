@@ -1,0 +1,9 @@
+{
+  "id": "inc-002",
+  "title": "payment-processor latency spike",
+  "type": "config_change",
+  "service": "payment-processor",
+  "started_at": "2026-04-22T10:15:00",
+  "description": "P99 latency on payment-processor jumped above 3000ms at 10:15 UTC. Checkout is extremely slow but not fully failing. No recent deploys.",
+  "severity": "sev2"
+}

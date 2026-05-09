@@ -1,0 +1,8 @@
+{
+  "payment-processor": [
+    {"name": "payment-db",         "type": "database", "health": "healthy"},
+    {"name": "fraud-service",      "type": "service",  "health": "healthy"},
+    {"name": "payment-cache",      "type": "cache",    "health": "healthy"},
+    {"name": "notification-service","type": "service",  "health": "healthy"}
+  ]
+}

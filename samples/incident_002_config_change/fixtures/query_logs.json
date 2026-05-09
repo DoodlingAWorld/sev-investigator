@@ -1,0 +1,14 @@
+{
+  "payment-processor": [
+    {"timestamp": "2026-04-22T10:00:00", "level": "INFO",    "message": "Payment processed, id=pay-4521, latency=132ms"},
+    {"timestamp": "2026-04-22T10:02:30", "level": "INFO",    "message": "Payment processed, id=pay-4522, latency=128ms"},
+    {"timestamp": "2026-04-22T10:05:00", "level": "INFO",    "message": "Feature flag updated: use_payment_cache=false"},
+    {"timestamp": "2026-04-22T10:08:00", "level": "WARNING", "message": "Slow payment processing, id=pay-4523, latency=1198ms"},
+    {"timestamp": "2026-04-22T10:09:00", "level": "WARNING", "message": "Slow payment processing, id=pay-4524, latency=2876ms"},
+    {"timestamp": "2026-04-22T10:10:00", "level": "WARNING", "message": "Slow payment processing, id=pay-4525, latency=3089ms"},
+    {"timestamp": "2026-04-22T10:15:04", "level": "WARNING", "message": "Slow payment processing, id=pay-4526, latency=3128ms"},
+    {"timestamp": "2026-04-22T10:15:18", "level": "WARNING", "message": "Slow payment processing, id=pay-4527, latency=3456ms"},
+    {"timestamp": "2026-04-22T10:16:00", "level": "WARNING", "message": "Slow payment processing, id=pay-4528, latency=3201ms"},
+    {"timestamp": "2026-04-22T10:17:00", "level": "WARNING", "message": "Slow payment processing, id=pay-4529, latency=3389ms"}
+  ]
+}

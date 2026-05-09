@@ -1,0 +1,52 @@
+{
+  "payment-processor": {
+    "cache_hit_rate": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-04-22T10:00:00", "value": 84.2},
+        {"timestamp": "2026-04-22T10:01:00", "value": 85.1},
+        {"timestamp": "2026-04-22T10:02:00", "value": 83.8},
+        {"timestamp": "2026-04-22T10:03:00", "value": 84.5},
+        {"timestamp": "2026-04-22T10:04:00", "value": 85.0},
+        {"timestamp": "2026-04-22T10:05:00", "value": 42.1},
+        {"timestamp": "2026-04-22T10:06:00", "value": 8.3},
+        {"timestamp": "2026-04-22T10:07:00", "value": 0.2},
+        {"timestamp": "2026-04-22T10:08:00", "value": 0.0},
+        {"timestamp": "2026-04-22T10:09:00", "value": 0.0},
+        {"timestamp": "2026-04-22T10:10:00", "value": 0.0}
+      ]
+    },
+    "latency_p99": {
+      "unit": "ms",
+      "points": [
+        {"timestamp": "2026-04-22T10:00:00", "value": 138},
+        {"timestamp": "2026-04-22T10:01:00", "value": 142},
+        {"timestamp": "2026-04-22T10:02:00", "value": 135},
+        {"timestamp": "2026-04-22T10:03:00", "value": 140},
+        {"timestamp": "2026-04-22T10:04:00", "value": 139},
+        {"timestamp": "2026-04-22T10:05:00", "value": 148},
+        {"timestamp": "2026-04-22T10:06:00", "value": 312},
+        {"timestamp": "2026-04-22T10:07:00", "value": 687},
+        {"timestamp": "2026-04-22T10:08:00", "value": 1243},
+        {"timestamp": "2026-04-22T10:09:00", "value": 2891},
+        {"timestamp": "2026-04-22T10:10:00", "value": 3127}
+      ]
+    },
+    "request_rate": {
+      "unit": "req/s",
+      "points": [
+        {"timestamp": "2026-04-22T10:00:00", "value": 142},
+        {"timestamp": "2026-04-22T10:01:00", "value": 138},
+        {"timestamp": "2026-04-22T10:02:00", "value": 145},
+        {"timestamp": "2026-04-22T10:03:00", "value": 141},
+        {"timestamp": "2026-04-22T10:04:00", "value": 139},
+        {"timestamp": "2026-04-22T10:05:00", "value": 143},
+        {"timestamp": "2026-04-22T10:06:00", "value": 137},
+        {"timestamp": "2026-04-22T10:07:00", "value": 144},
+        {"timestamp": "2026-04-22T10:08:00", "value": 140},
+        {"timestamp": "2026-04-22T10:09:00", "value": 138},
+        {"timestamp": "2026-04-22T10:10:00", "value": 141}
+      ]
+    }
+  }
+}
