@@ -5,8 +5,8 @@ from pathlib import Path
 _fixtures_dir: Path | None = None
 
 
-def set_fixtures_dir(path: Path) -> None:
-    """Point the mock tools at a specific incident's fixture directory."""
+def set_fixtures_dir(path: Path | None) -> None:
+    """Point the mock tools at a specific incident's fixture directory. Pass None to reset."""
     global _fixtures_dir
     _fixtures_dir = path
 
