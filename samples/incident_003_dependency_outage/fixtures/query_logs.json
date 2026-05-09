@@ -1,0 +1,19 @@
+{
+  "auth-gateway": [
+    {"timestamp": "2026-04-28T16:38:00", "level": "INFO",  "message": "Auth completed, user=usr-8821, latency=45ms"},
+    {"timestamp": "2026-04-28T16:39:00", "level": "INFO",  "message": "Auth completed, user=usr-8822, latency=43ms"},
+    {"timestamp": "2026-04-28T16:40:00", "level": "INFO",  "message": "Auth completed, user=usr-8823, latency=48ms"},
+    {"timestamp": "2026-04-28T16:41:00", "level": "INFO",  "message": "Auth completed, user=usr-8824, latency=44ms"},
+    {"timestamp": "2026-04-28T16:42:03", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:42:07", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:42:09", "level": "INFO",  "message": "Auth completed (cached token), user=usr-8827, latency=12ms"},
+    {"timestamp": "2026-04-28T16:42:14", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:42:21", "level": "INFO",  "message": "Auth completed (cached token), user=usr-8829, latency=11ms"},
+    {"timestamp": "2026-04-28T16:43:01", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:43:18", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:43:22", "level": "INFO",  "message": "Auth completed (cached token), user=usr-8832, latency=13ms"},
+    {"timestamp": "2026-04-28T16:44:05", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:44:19", "level": "ERROR", "message": "Connection timeout to auth-db: read ETIMEDOUT after 5000ms"},
+    {"timestamp": "2026-04-28T16:44:31", "level": "INFO",  "message": "Auth completed (cached token), user=usr-8835, latency=12ms"}
+  ]
+}

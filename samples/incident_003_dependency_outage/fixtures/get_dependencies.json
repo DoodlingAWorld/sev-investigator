@@ -1,0 +1,8 @@
+{
+  "auth-gateway": [
+    {"name": "auth-db",      "type": "database", "health": "down"},
+    {"name": "token-cache",  "type": "cache",    "health": "healthy"},
+    {"name": "user-service", "type": "service",  "health": "healthy"},
+    {"name": "session-store","type": "cache",    "health": "healthy"}
+  ]
+}

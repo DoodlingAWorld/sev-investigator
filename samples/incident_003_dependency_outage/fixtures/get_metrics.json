@@ -1,0 +1,46 @@
+{
+  "auth-gateway": {
+    "error_rate": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-04-28T16:38:00", "value": 0.1},
+        {"timestamp": "2026-04-28T16:39:00", "value": 0.2},
+        {"timestamp": "2026-04-28T16:40:00", "value": 0.1},
+        {"timestamp": "2026-04-28T16:41:00", "value": 0.2},
+        {"timestamp": "2026-04-28T16:42:00", "value": 28.4},
+        {"timestamp": "2026-04-28T16:43:00", "value": 31.2},
+        {"timestamp": "2026-04-28T16:44:00", "value": 29.8},
+        {"timestamp": "2026-04-28T16:45:00", "value": 32.1},
+        {"timestamp": "2026-04-28T16:46:00", "value": 30.5}
+      ]
+    },
+    "latency_p99": {
+      "unit": "ms",
+      "points": [
+        {"timestamp": "2026-04-28T16:38:00", "value": 48},
+        {"timestamp": "2026-04-28T16:39:00", "value": 45},
+        {"timestamp": "2026-04-28T16:40:00", "value": 47},
+        {"timestamp": "2026-04-28T16:41:00", "value": 46},
+        {"timestamp": "2026-04-28T16:42:00", "value": 5124},
+        {"timestamp": "2026-04-28T16:43:00", "value": 5089},
+        {"timestamp": "2026-04-28T16:44:00", "value": 5201},
+        {"timestamp": "2026-04-28T16:45:00", "value": 5143},
+        {"timestamp": "2026-04-28T16:46:00", "value": 5088}
+      ]
+    },
+    "request_rate": {
+      "unit": "req/s",
+      "points": [
+        {"timestamp": "2026-04-28T16:38:00", "value": 412},
+        {"timestamp": "2026-04-28T16:39:00", "value": 408},
+        {"timestamp": "2026-04-28T16:40:00", "value": 415},
+        {"timestamp": "2026-04-28T16:41:00", "value": 410},
+        {"timestamp": "2026-04-28T16:42:00", "value": 403},
+        {"timestamp": "2026-04-28T16:43:00", "value": 398},
+        {"timestamp": "2026-04-28T16:44:00", "value": 405},
+        {"timestamp": "2026-04-28T16:45:00", "value": 401},
+        {"timestamp": "2026-04-28T16:46:00", "value": 407}
+      ]
+    }
+  }
+}

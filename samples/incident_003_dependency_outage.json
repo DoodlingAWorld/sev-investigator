@@ -1,0 +1,9 @@
+{
+  "id": "inc-003",
+  "title": "auth-gateway 5xx wave",
+  "type": "dependency_outage",
+  "service": "auth-gateway",
+  "started_at": "2026-04-28T16:42:00",
+  "description": "auth-gateway returning 5xx on ~30% of requests starting at 16:42 UTC. Requests that can be served from cached tokens succeed; all live auth-db lookups are failing. No recent deploys or config changes.",
+  "severity": "sev1"
+}
