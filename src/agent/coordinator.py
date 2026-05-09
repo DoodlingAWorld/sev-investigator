@@ -1,0 +1,81 @@
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any
+
+from rich.console import Console
+
+from sev_investigator.agent import MAX_STEPS
+from sev_investigator.agent import executor, planner, synthesizer
+from sev_investigator.schemas.agent_state import AgentState
+from sev_investigator.schemas.incident import IncidentEvent
+from sev_investigator.schemas.report import InvestigationReport
+from sev_investigator.skills import get_skill
+from sev_investigator.tools import set_fixtures_dir
+
+_console = Console()
+
+
+def run(incident: IncidentEvent, fixtures_dir: Path) -> InvestigationReport:
+    """Run a full investigation: load skill, planner -> executor loop, then synthesize."""
+    set_fixtures_dir(fixtures_dir)
+    try:
+        return _run(incident)
+    finally:
+        set_fixtures_dir(None)
+
+
+def _run(incident: IncidentEvent) -> InvestigationReport:
+    skill = get_skill(incident.type)
+    state = AgentState(incident = incident, skill_name = skill.name)
+
+    _console.print(f"\n[bold]sev-investigator[/bold] — {incident.title}")
+    _console.print(
+        f"[dim]id:[/dim] {incident.id}  "
+        f"[dim]type:[/dim] {incident.type}  "
+        f"[dim]severity:[/dim] {incident.severity}\n"
+    )
+
+    while state.step_count < MAX_STEPS:
+        decision = planner.run(state, skill)
+        _console.print(
+            f"[cyan][planner][/cyan]    → {decision.action}  "
+            f"[dim]{decision.reasoning[:80]}[/dim]"
+        )
+
+        if decision.action == "synthesize":
+            break
+
+        # next_step is guaranteed non-None here by PlannerDecision's model_validator
+        if decision.next_step is None:
+            break
+
+        evidence = executor.run(decision.next_step, state)
+        _console.print(
+            f"[green][executor][/green]   → {evidence.tool}({_fmt_args(evidence.args)})"
+        )
+
+        state.evidence.append(evidence)
+        state.step_count += 1
+    else:
+        _console.print(
+            f"\n[bold yellow][coordinator][/bold yellow] step budget exhausted "
+            f"({MAX_STEPS} steps) — synthesizing with partial evidence."
+        )
+
+    _console.print("\n[yellow][synthesizer][/yellow] writing report...")
+    report = synthesizer.run(state)
+    _console.print(f"\n[bold green]✓ Done[/bold green]  run_id={report.run_id}\n")
+    return report
+
+
+def _fmt_args(args: dict[str, Any]) -> str:
+    """Render the first three tool args as a compact inline string for display."""
+    """Lots of index maths lol."""
+    parts = []
+    for k, v in list(args.items())[:3]:
+        v_repr = repr(v)
+        if len(v_repr) > 40:
+            v_repr = v_repr[:37] + "..."
+        parts.append(f"{k}={v_repr}")
+    return ", ".join(parts)
