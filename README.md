@@ -63,7 +63,7 @@ The coordinator runs up to 8 planner→executor iterations. All LLM outputs are 
 ## Setup
 
 ```bash
-git clone https://github.com/your-username/sev-investigator
+git clone https://github.com/DoodlingAWorld/sev-investigator
 cd sev-investigator
 pip install -e ".[dev]"       # core + tests
 pip install -e ".[dev,ui]"    # also includes Streamlit UI
