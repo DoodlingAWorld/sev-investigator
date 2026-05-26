@@ -1,5 +1,10 @@
 # sev-investigator
 
+<img width="1687" height="918" alt="Screenshot 2026-05-09 195432" src="https://github.com/user-attachments/assets/5b0daa93-36fa-492c-84da-f5e288629737" />
+<img width="1687" height="872" alt="Screenshot 2026-05-09 195441" src="https://github.com/user-attachments/assets/18c87f1b-fcaa-4397-bbf2-f66dd368bcef" />
+<img width="1310" height="746" alt="Screenshot 2026-05-09 195456" src="https://github.com/user-attachments/assets/3e882526-887f-492e-9240-e3a7ea310e83" />
+
+
 A multi-step LLM agent that investigates production incidents. Given a structured incident event, it runs a planner→executor loop, gathering evidence by calling tools, then synthesizes a structured root-cause analysis report.
 
 ## Why multi-step?
@@ -58,7 +63,7 @@ The coordinator runs up to 8 planner→executor iterations. All LLM outputs are 
 ## Setup
 
 ```bash
-git clone https://github.com/your-username/sev-investigator
+git clone https://github.com/DoodlingAWorld/sev-investigator
 cd sev-investigator
 pip install -e ".[dev]"       # core + tests
 pip install -e ".[dev,ui]"    # also includes Streamlit UI
