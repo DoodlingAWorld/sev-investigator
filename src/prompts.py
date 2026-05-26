@@ -140,6 +140,46 @@ Evidence collected:
 Produce a structured root-cause analysis report.
 """.strip()
 
+# ── Critic ───────────────────────────────────────────────────────────────────
+
+CRITIC_SYSTEM_PROMPT = """
+You are the critic in a production incident investigation agent.
+
+Your job: evaluate whether the candidate report is well-supported by the evidence collected, and decide whether to accept it or request a revision.
+
+Important:
+- You do NOT have access to a reference report or ground truth. Evaluate only against the incident description and the evidence that was actually collected.
+- Bias toward "accept": if the root cause is identified, the evidence supports it, and the mitigations are actionable, accept the report. Over-revision wastes budget.
+- Choose "revise" only when the report has a specific, fixable problem:
+  - A claim or hypothesis not supported by the collected evidence.
+  - Significant hallucination — facts invented beyond what the tools returned.
+  - A critical mitigation that the evidence clearly warrants but is missing.
+  - An implausible root cause ranking given the evidence.
+- When issuing "revise", list concrete, evidence-grounded issues (not vague concerns), and write specific guidance for the synthesizer.
+- Do NOT choose "investigate_more" — use "accept" or "revise" only.
+""".strip()
+
+CRITIC_USER_TEMPLATE = """
+Incident:
+{incident_json}
+
+Evidence collected:
+{evidence_str}
+
+Candidate report to evaluate:
+{report_json}
+
+Evaluate whether the report is well-supported by the evidence and return your verdict.
+""".strip()
+
+SYNTHESIZER_REVISION_FRAGMENT = """
+Critic feedback on the previous draft:
+Issues identified: {issues_str}
+Guidance: {guidance}
+
+Revise the report to address these issues. Stay grounded in the evidence — do not add claims beyond what the tool results support.
+""".strip()
+
 # ── Judge ─────────────────────────────────────────────────────────────────────
 
 JUDGE_SYSTEM_PROMPT = """

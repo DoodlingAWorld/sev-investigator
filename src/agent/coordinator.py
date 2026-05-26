@@ -6,8 +6,8 @@ from typing import Any
 
 from rich.console import Console
 
-from sev_investigator.agent import MAX_STEPS
-from sev_investigator.agent import executor, planner, synthesizer
+from sev_investigator.agent import MAX_REFLECTION_ROUNDS, MAX_STEPS
+from sev_investigator.agent import critic, executor, planner, synthesizer
 from sev_investigator.schemas.agent_state import AgentState
 from sev_investigator.schemas.incident import IncidentEvent
 from sev_investigator.schemas.report import InvestigationReport
@@ -83,6 +83,33 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
 
         _console.print("\n[yellow][synthesizer][/yellow] writing report...")
         report = synthesizer.run(state, rec)
+
+        while state.reflection_rounds < MAX_REFLECTION_ROUNDS:
+            critique = critic.run(state, report, rec)
+            state.critiques.append(critique)
+            _console.print(
+                f"[magenta][critic][/magenta]      → {critique.verdict}"
+                + (f"  [dim]{critique.issues[0][:80]}[/dim]" if critique.issues else "")
+            )
+
+            if critique.verdict == "accept":
+                break
+
+            state.reflection_rounds += 1
+            # investigate_more is deferred to Phase 1.5; treat as revise for now
+            report = synthesizer.run(state, rec, prior_critique = critique)
+
+        cap_hit = bool(state.critiques) and state.critiques[-1].verdict != "accept"
+        rec.emit(
+            "reflection_complete",
+            payload = {
+                "rounds_used": state.reflection_rounds,
+                "final_verdict": state.critiques[-1].verdict if state.critiques else "none",
+                "cap_hit": cap_hit,
+            },
+            span_id = "reflection",
+            parent_span_id = "coordinator",
+        )
 
         rec.emit(
             "investigation_complete",

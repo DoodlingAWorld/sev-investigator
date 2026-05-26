@@ -10,7 +10,7 @@ from pytest_mock import MockerFixture
 
 from sev_investigator.agent import MAX_STEPS, coordinator
 from sev_investigator.llm import LLMResponse
-from sev_investigator.schemas.agent_state import Evidence, PlannerDecision, ToolCallPlan
+from sev_investigator.schemas.agent_state import CritiqueOutput, Evidence, PlannerDecision, ToolCallPlan
 from sev_investigator.schemas.incident import IncidentEvent
 from sev_investigator.schemas.report import (
     InvestigationReport,
@@ -69,6 +69,14 @@ def _fake_synth_output() -> SynthesizerOutput:
     )
 
 
+def _fake_critic_accept(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+    return _resp(CritiqueOutput(
+        verdict = "accept",
+        issues = [],
+        guidance = "Report is well-supported by the evidence.",
+    ))
+
+
 # ── happy path ────────────────────────────────────────────────────────────────
 
 def test_coordinator_runs_full_loop(mocker: MockerFixture, incident: IncidentEvent) -> None:
@@ -99,6 +107,7 @@ def test_coordinator_runs_full_loop(mocker: MockerFixture, incident: IncidentEve
     mocker.patch("sev_investigator.agent.planner.parse", side_effect = fake_planner)
     mocker.patch("sev_investigator.agent.coordinator.executor.run", side_effect = fake_executor_run)
     mocker.patch("sev_investigator.agent.synthesizer.parse", side_effect = fake_synthesizer)
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = _fake_critic_accept)
 
     report = coordinator.run(incident, FIXTURES_DIR)
 
@@ -139,6 +148,7 @@ def test_coordinator_passes_evidence_to_synthesizer(mocker: MockerFixture, incid
     mocker.patch("sev_investigator.agent.planner.parse", side_effect = fake_planner)
     mocker.patch("sev_investigator.agent.coordinator.executor.run", side_effect = fake_executor_run)
     mocker.patch("sev_investigator.agent.synthesizer.parse", side_effect = fake_synthesizer)
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = _fake_critic_accept)
 
     coordinator.run(incident, FIXTURES_DIR)
 
@@ -185,6 +195,7 @@ def test_coordinator_stops_at_max_steps(mocker: MockerFixture, incident: Inciden
     mocker.patch("sev_investigator.agent.planner.parse", side_effect = always_investigate)
     mocker.patch("sev_investigator.agent.coordinator.executor.run", side_effect = fake_executor_run)
     mocker.patch("sev_investigator.agent.synthesizer.parse", side_effect = fake_synthesizer)
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = _fake_critic_accept)
 
     report = coordinator.run(incident, FIXTURES_DIR)
 

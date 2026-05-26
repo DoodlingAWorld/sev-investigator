@@ -10,6 +10,17 @@ from sev_investigator.schemas.incident import IncidentEvent
 from sev_investigator.schemas.tools import ToolResult
 
 
+class CritiqueOutput(BaseModel):
+    """Structured output of a single critic LLM call."""
+
+    model_config = ConfigDict(extra = "forbid")
+
+    verdict: Literal["accept", "revise", "investigate_more"]
+    issues: list[str]
+    guidance: str
+    missing_evidence: list[str] = Field(default_factory=list)
+
+
 class ToolCallPlan(BaseModel):
     """What the planner wants the executor to investigate next."""
 
@@ -53,3 +64,5 @@ class AgentState(BaseModel):
     evidence: list[Evidence] = Field(default_factory=list)
     step_count: int = 0
     started_at: datetime = Field(default_factory=lambda: datetime.now(tz=timezone.utc))
+    reflection_rounds: int = 0
+    critiques: list[CritiqueOutput] = Field(default_factory=list)
