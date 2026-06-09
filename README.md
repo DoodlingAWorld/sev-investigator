@@ -62,9 +62,9 @@ A deploy-related incident calls for different investigation heuristics than a de
                  │   Synthesizer   │
                  └────────┬────────┘
                            ▼
-                 ┌─────────────────┐   investigate_more   ┌──────────────────┐
-                 │     Critic      │─────────────────────▶│ Re-investigation  │
-                 │  (up to 2       │                       │ Planner re-enters │
+                 ┌─────────────────┐   investigate_more    ┌──────────────────┐
+                 │     Critic      │─────────────────────▶ │ Re-investigation │
+                 │  (up to 2       │                       │ Planner re-enters│
                  │   rounds)       │◀──────────────────────│ with guidance;   │
                  └────────┬────────┘   new evidence        │ Synthesizer re-  │
                           │                                │ drafts report    │
