@@ -226,6 +226,173 @@ def test_critic_cap_terminates_loop(mocker: MockerFixture, incident: IncidentEve
     assert synth_mock.call_count == MAX_REFLECTION_ROUNDS + 1
 
 
+def test_investigate_more_triggers_re_investigation(mocker: MockerFixture, incident: IncidentEvent) -> None:
+    """On investigate_more, coordinator re-enters planner/executor before re-synthesizing."""
+    planner_calls = 0
+
+    def fake_planner(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal planner_calls
+        planner_calls += 1
+        # calls 1+2: initial investigate→synthesize loop
+        # calls 3+4: re-investigation investigate→synthesize loop
+        if planner_calls in (1, 3):
+            return _resp(PlannerDecision(
+                action = "investigate",
+                next_step = ToolCallPlan(tool = "get_recent_deploys", rationale = "check deploys"),
+                reasoning = "Need more data.",
+            ))
+        return _resp(PlannerDecision(action = "synthesize", next_step = None, reasoning = "Done."))
+
+    mocker.patch("sev_investigator.agent.planner.parse", side_effect = fake_planner)
+
+    executor_calls = 0
+
+    def fake_executor(plan: Any, state: Any, rec: Any = None) -> Evidence:
+        nonlocal executor_calls
+        executor_calls += 1
+        return _fake_evidence()
+
+    mocker.patch(
+        "sev_investigator.agent.coordinator.executor.run",
+        side_effect = fake_executor,
+    )
+
+    synth_mock = mocker.patch(
+        "sev_investigator.agent.synthesizer.parse",
+        side_effect = lambda messages, response_format, **kwargs: _resp(_fake_synth_output()),
+    )
+
+    critic_calls = 0
+
+    def fake_critic(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal critic_calls
+        critic_calls += 1
+        if critic_calls == 1:
+            return _resp(CritiqueOutput(
+                verdict = "investigate_more",
+                issues = ["Dependencies not checked."],
+                guidance = "Check dependency health for the affected service.",
+                missing_evidence = ["get_dependencies"],
+            ))
+        return _resp(_accept())
+
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = fake_critic)
+
+    report = coordinator.run(incident, FIXTURES_DIR)
+
+    assert isinstance(report, InvestigationReport)
+    assert critic_calls == 2                 # investigate_more → accept
+    assert executor_calls == 2               # 1 initial + 1 re-investigation
+    assert planner_calls == 4                # investigate, synthesize, investigate, synthesize
+    assert synth_mock.call_count == 2        # initial + post-re-investigation
+
+
+def test_investigate_more_guidance_appears_in_planner_prompt(mocker: MockerFixture, incident: IncidentEvent) -> None:
+    """The critic's guidance is forwarded to the planner during re-investigation."""
+    planner_calls = 0
+    captured_reinvestigation_user: list[str] = []
+
+    def fake_planner(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal planner_calls
+        planner_calls += 1
+        if planner_calls == 3:
+            user_content: str = next(m["content"] for m in messages if m["role"] == "user")
+            captured_reinvestigation_user.append(user_content)
+        if planner_calls in (1, 3):
+            return _resp(PlannerDecision(
+                action = "investigate",
+                next_step = ToolCallPlan(tool = "get_recent_deploys", rationale = "check"),
+                reasoning = "Checking.",
+            ))
+        return _resp(PlannerDecision(action = "synthesize", next_step = None, reasoning = "Done."))
+
+    mocker.patch("sev_investigator.agent.planner.parse", side_effect = fake_planner)
+    mocker.patch(
+        "sev_investigator.agent.coordinator.executor.run",
+        side_effect = lambda plan, state, rec = None: _fake_evidence(),
+    )
+    mocker.patch(
+        "sev_investigator.agent.synthesizer.parse",
+        side_effect = lambda messages, response_format, **kwargs: _resp(_fake_synth_output()),
+    )
+
+    critic_calls = 0
+
+    def fake_critic(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal critic_calls
+        critic_calls += 1
+        if critic_calls == 1:
+            return _resp(CritiqueOutput(
+                verdict = "investigate_more",
+                issues = ["Dependencies not checked."],
+                guidance = "Check dependency health for the affected service.",
+                missing_evidence = ["get_dependencies"],
+            ))
+        return _resp(_accept())
+
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = fake_critic)
+
+    coordinator.run(incident, FIXTURES_DIR)
+
+    assert len(captured_reinvestigation_user) == 1
+    assert "Critic guidance" in captured_reinvestigation_user[0]
+    assert "Check dependency health" in captured_reinvestigation_user[0]
+
+
+def test_investigate_more_budget_exhausted_falls_back_to_revise(
+    mocker: MockerFixture, incident: IncidentEvent
+) -> None:
+    """When step budget is already exhausted, investigate_more is treated as revise."""
+    from sev_investigator.agent import MAX_STEPS
+
+    # Fill up the step budget in the initial loop
+    planner_calls = 0
+
+    def always_investigate(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal planner_calls
+        planner_calls += 1
+        return _resp(PlannerDecision(
+            action = "investigate",
+            next_step = ToolCallPlan(tool = "get_recent_deploys", rationale = "keep checking"),
+            reasoning = "Need more data.",
+        ))
+
+    mocker.patch("sev_investigator.agent.planner.parse", side_effect = always_investigate)
+    mocker.patch(
+        "sev_investigator.agent.coordinator.executor.run",
+        side_effect = lambda plan, state, rec = None: _fake_evidence(),
+    )
+
+    synth_mock = mocker.patch(
+        "sev_investigator.agent.synthesizer.parse",
+        side_effect = lambda messages, response_format, **kwargs: _resp(_fake_synth_output()),
+    )
+
+    critic_calls = 0
+
+    def fake_critic(messages: Any, response_format: Any, **kwargs: Any) -> Any:
+        nonlocal critic_calls
+        critic_calls += 1
+        if critic_calls == 1:
+            return _resp(CritiqueOutput(
+                verdict = "investigate_more",
+                issues = ["Dependencies not checked."],
+                guidance = "Check dependency health.",
+                missing_evidence = ["get_dependencies"],
+            ))
+        return _resp(_accept())
+
+    mocker.patch("sev_investigator.agent.critic.parse", side_effect = fake_critic)
+
+    report = coordinator.run(incident, FIXTURES_DIR)
+
+    assert isinstance(report, InvestigationReport)
+    # planner never called again after budget exhausted (only MAX_STEPS calls in initial loop)
+    assert planner_calls == MAX_STEPS
+    # synthesizer still called twice: initial + revision with critique as guidance
+    assert synth_mock.call_count == 2
+
+
 def test_synthesizer_no_critique_unchanged(mocker: MockerFixture, incident: IncidentEvent) -> None:
     """Calling synthesizer.run with no prior_critique produces the same prompt as before."""
     from sev_investigator.agent import synthesizer

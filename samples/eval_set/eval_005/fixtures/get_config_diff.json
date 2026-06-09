@@ -1,0 +1,11 @@
+{
+  "api-gateway": [
+    {
+      "changed_at": "2026-06-11T14:00:00",
+      "key": "auth_timeout_ms",
+      "old_value": "5000",
+      "new_value": "50",
+      "changed_by": "ops-team"
+    }
+  ]
+}

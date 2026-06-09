@@ -1,0 +1,8 @@
+{
+  "api-gateway": [
+    {"name": "auth-service",   "type": "service",  "health": "degraded"},
+    {"name": "user-db",        "type": "database", "health": "healthy"},
+    {"name": "session-cache",  "type": "cache",    "health": "healthy"},
+    {"name": "rate-limiter",   "type": "service",  "health": "healthy"}
+  ]
+}

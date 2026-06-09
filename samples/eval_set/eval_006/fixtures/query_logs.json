@@ -1,0 +1,14 @@
+{
+  "media-service": [
+    {"timestamp": "2026-06-12T08:57:00", "level": "INFO",  "message": "Upload completed: file=report.pdf, size=2.1MB, latency=340ms"},
+    {"timestamp": "2026-06-12T08:58:00", "level": "INFO",  "message": "Upload completed: file=presentation.pptx, size=18.4MB, latency=1820ms"},
+    {"timestamp": "2026-06-12T08:59:00", "level": "INFO",  "message": "Upload completed: file=product-photo.jpg, size=4.2MB, latency=490ms"},
+    {"timestamp": "2026-06-12T09:00:00", "level": "INFO",  "message": "FileProcessor: loading file into memory (487.2 MB): video=summer-campaign-hd.mp4"},
+    {"timestamp": "2026-06-12T09:00:04", "level": "ERROR", "message": "OutOfMemoryError in FileProcessor.processUpload(): Java heap space"},
+    {"timestamp": "2026-06-12T09:00:11", "level": "INFO",  "message": "FileProcessor: loading file into memory (312.8 MB): video=product-demo-4k.mp4"},
+    {"timestamp": "2026-06-12T09:00:14", "level": "ERROR", "message": "OutOfMemoryError in FileProcessor.processUpload(): Java heap space"},
+    {"timestamp": "2026-06-12T09:00:19", "level": "INFO",  "message": "Upload completed: file=thumbnail.png, size=0.3MB, latency=41ms"},
+    {"timestamp": "2026-06-12T09:00:22", "level": "INFO",  "message": "FileProcessor: loading file into memory (198.6 MB): video=brand-intro.mp4"},
+    {"timestamp": "2026-06-12T09:00:26", "level": "ERROR", "message": "OutOfMemoryError in FileProcessor.processUpload(): Java heap space"}
+  ]
+}

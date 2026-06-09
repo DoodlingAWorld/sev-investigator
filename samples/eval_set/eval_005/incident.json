@@ -1,0 +1,9 @@
+{
+  "id": "eval-005",
+  "title": "api-gateway request failures — auth-service unhealthy",
+  "type": "dependency_outage",
+  "service": "api-gateway",
+  "started_at": "2026-06-11T14:30:00",
+  "description": "api-gateway is returning 503 on ~60% of requests since 14:30 UTC. Health checks show auth-service as unhealthy. No recent deploys.",
+  "severity": "sev1"
+}

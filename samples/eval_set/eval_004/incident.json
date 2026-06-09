@@ -1,0 +1,9 @@
+{
+  "id": "eval-004",
+  "title": "payments-service checkout failures after SDK deploy",
+  "type": "deploy_related",
+  "service": "payments-service",
+  "started_at": "2026-06-10T16:00:00",
+  "description": "payments-service began throwing errors on all checkout requests at 16:00 UTC. Error rate jumped from <1% to 45%. A payment SDK upgrade was deployed 5 minutes earlier.",
+  "severity": "sev2"
+}

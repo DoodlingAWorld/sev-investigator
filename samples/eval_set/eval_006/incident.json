@@ -1,0 +1,9 @@
+{
+  "id": "eval-006",
+  "title": "media-service OOM crashes on large file uploads",
+  "type": "config_change",
+  "service": "media-service",
+  "started_at": "2026-06-12T09:00:00",
+  "description": "media-service began crashing with OutOfMemoryError on large file uploads at 09:00 UTC. A config change was made 5 minutes earlier. Smaller uploads continue to succeed.",
+  "severity": "sev2"
+}

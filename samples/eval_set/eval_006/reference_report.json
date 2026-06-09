@@ -1,0 +1,15 @@
+{
+  "root_cause": "The config change increasing max_upload_size_mb from 50 to 500 is intentional and correct (needed for HD video uploads). It exposed a pre-existing bug in FileProcessor: the implementation loads entire files into memory rather than streaming them. Files up to 50MB were small enough to avoid OOM; files up to 500MB now exhaust the JVM heap. The config change is not the root cause — the non-streaming FileProcessor implementation is.",
+  "key_evidence": [
+    "get_config_diff shows max_upload_size_mb changed from 50 to 500 at 08:55",
+    "ERROR logs show OutOfMemoryError in FileProcessor.processUpload() starting at 09:00",
+    "Logs also show 'FileProcessor: loading file into memory (487.2 MB)' — direct evidence of non-streaming behavior",
+    "Smaller uploads succeed — OOM only occurs for files above the previous 50MB limit, confirming the latent bug was always present"
+  ],
+  "expected_mitigations": [
+    "Fix FileProcessor.processUpload() to stream files in chunks rather than loading entirely into memory",
+    "As an interim measure, increase JVM heap size to handle current upload sizes while the fix is deployed",
+    "Do NOT revert max_upload_size_mb — the config change is correct and needed; reverting removes a required feature"
+  ],
+  "notes": "The trap: the config change timing and OOM correlation look like the config change is wrong. A naive agent will recommend reverting max_upload_size_mb. This is the wrong mitigation — the change is intentional and needed for HD video uploads. The key log line is 'FileProcessor: loading file into memory (487.2 MB)' which proves the bug is in the implementation. A correct report must identify the non-streaming FileProcessor as the root cause and explicitly state that the config change should NOT be reverted. Any report recommending to revert the config change should score 0-1 on mitigation_utility. A report that only blames the config change without identifying the latent streaming bug should score 1-2 on root_cause_accuracy."
+}

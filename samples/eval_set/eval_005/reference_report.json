@@ -1,0 +1,15 @@
+{
+  "root_cause": "A config change at 14:00 reduced auth_timeout_ms from 5000 to 50. auth-service's normal p99 latency is ~280ms, so virtually every request times out under the new 50ms limit. api-gateway's retry logic (5 attempts per request) then floods auth-service with ~10x normal request volume, making it appear unhealthy in health checks. auth-service itself is fully operational — the outage is self-inflicted by the misconfigured timeout.",
+  "key_evidence": [
+    "get_config_diff shows auth_timeout_ms changed from 5000 to 50 at 14:00",
+    "query_logs shows 'auth-service request timed out' and 'RetryHandler: attempt 4/5' starting at 14:30",
+    "get_metrics for auth-service shows latency_p99 at ~280ms (healthy) and request_rate at 10x baseline — the retry storm",
+    "get_dependencies shows auth-service as unhealthy, but this is a consequence of the retry storm, not the cause"
+  ],
+  "expected_mitigations": [
+    "Immediately revert auth_timeout_ms to 5000ms (or at minimum to a value above auth-service p99 latency)",
+    "Add a config validation rule that rejects timeout values below observed p99 latency for that dependency",
+    "Implement circuit-breaker logic to stop retrying when all attempts are timing out"
+  ],
+  "notes": "The trap: auth-service shows as unhealthy in the dependency check, which looks like a clear outage. An agent that stops after checking dependencies and logs will conclude 'auth-service is down.' The correct diagnosis requires checking auth-service metrics (p99 latency ~280ms — healthy) and config_diff (50ms timeout is the problem). Any report that says auth-service is experiencing an outage without identifying the timeout misconfiguration should score 0 on root_cause_accuracy. Any mitigation that targets auth-service recovery (rather than fixing the timeout) should score 0-1 on mitigation_utility."
+}

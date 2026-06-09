@@ -1,0 +1,15 @@
+{
+  "root_cause": "A config change at 12:00 reduced db_connection_pool_size from 100 to 5. Under normal traffic the pool was gradually consumed over 4 hours; at peak load (16:00) the pool was exhausted, causing all checkout requests to fail with DatabaseConnectionError. The SDK deploy at 15:55 is coincidental — it does not touch database connection logic.",
+  "key_evidence": [
+    "get_config_diff (wide window, since 12:00 or earlier) shows db_connection_pool_size changed from 100 to 5 at 12:00",
+    "ERROR logs show DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=47+) starting at 16:00",
+    "Deploy v5.1.0 at 15:55 description is 'upgrade payment SDK to v5.1' — no database connection changes",
+    "All dependencies healthy — pool exhaustion is local to payments-service, not a downstream outage"
+  ],
+  "expected_mitigations": [
+    "Immediately revert db_connection_pool_size to 100 (or an appropriate value for current traffic)",
+    "Add alerting on connection pool utilization above 80%",
+    "Require config change reviews for database pool settings before applying to production"
+  ],
+  "notes": "The critical trap: the deploy at 15:55 and the errors at 16:00 look causally linked, but pool_size=5 in the error message is the signal. An agent that queries get_config_diff only from the deploy time onward (since ~15:55) will get an empty result and conclude the SDK upgrade caused the errors. A correct investigation queries config_diff over a broader window (several hours back) and finds the 12:00 pool size reduction. Any report that blames the SDK upgrade without identifying db_connection_pool_size=5 should score 0 on root_cause_accuracy and low on hallucination (it invents a connection bug in the SDK that does not exist)."
+}

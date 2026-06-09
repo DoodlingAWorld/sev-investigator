@@ -96,7 +96,28 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
                 break
 
             state.reflection_rounds += 1
-            # investigate_more is deferred to Phase 1.5; treat as revise for now
+
+            if critique.verdict == "investigate_more" and state.step_count < MAX_STEPS:
+                while state.step_count < MAX_STEPS:
+                    decision = planner.run(state, skill, rec, guidance = critique.guidance)
+                    _console.print(
+                        f"[cyan][planner][/cyan]    → {decision.action}  "
+                        f"[dim]{decision.reasoning[:80]}[/dim]"
+                    )
+                    if decision.action == "synthesize" or decision.next_step is None:
+                        break
+                    evidence = executor.run(decision.next_step, state, rec)
+                    _console.print(
+                        f"[green][executor][/green]   → {evidence.tool}({_fmt_args(evidence.args)})"
+                    )
+                    state.evidence.append(evidence)
+                    state.step_count += 1
+            elif critique.verdict == "investigate_more":
+                _console.print(
+                    "[bold yellow][coordinator][/bold yellow] investigate_more requested "
+                    "but step budget exhausted — revising with existing evidence."
+                )
+
             report = synthesizer.run(state, rec, prior_critique = critique)
 
         cap_hit = bool(state.critiques) and state.critiques[-1].verdict != "accept"

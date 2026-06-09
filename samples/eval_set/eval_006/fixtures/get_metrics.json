@@ -1,0 +1,26 @@
+{
+  "media-service": {
+    "error_rate": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-06-12T08:55:00", "value": 0.2},
+        {"timestamp": "2026-06-12T08:57:00", "value": 0.3},
+        {"timestamp": "2026-06-12T08:59:00", "value": 0.2},
+        {"timestamp": "2026-06-12T09:00:00", "value": 31.4},
+        {"timestamp": "2026-06-12T09:01:00", "value": 33.7},
+        {"timestamp": "2026-06-12T09:02:00", "value": 32.9}
+      ]
+    },
+    "heap_usage": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-06-12T08:55:00", "value": 42},
+        {"timestamp": "2026-06-12T08:57:00", "value": 44},
+        {"timestamp": "2026-06-12T08:59:00", "value": 43},
+        {"timestamp": "2026-06-12T09:00:00", "value": 99},
+        {"timestamp": "2026-06-12T09:01:00", "value": 100},
+        {"timestamp": "2026-06-12T09:02:00", "value": 100}
+      ]
+    }
+  }
+}

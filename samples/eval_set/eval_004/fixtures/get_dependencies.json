@@ -1,0 +1,8 @@
+{
+  "payments-service": [
+    {"name": "payments-db",      "type": "database", "health": "healthy"},
+    {"name": "fraud-checker",    "type": "service",  "health": "healthy"},
+    {"name": "currency-service", "type": "service",  "health": "healthy"},
+    {"name": "audit-log",        "type": "service",  "health": "healthy"}
+  ]
+}

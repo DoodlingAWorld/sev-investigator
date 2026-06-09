@@ -1,0 +1,15 @@
+{
+  "payments-service": [
+    {"timestamp": "2026-06-10T15:53:00", "level": "INFO",  "message": "Checkout completed: order_id=ORD-4421, latency=211ms"},
+    {"timestamp": "2026-06-10T15:54:00", "level": "INFO",  "message": "Checkout completed: order_id=ORD-4422, latency=198ms"},
+    {"timestamp": "2026-06-10T15:55:00", "level": "INFO",  "message": "Deploy started: version=v5.1.0"},
+    {"timestamp": "2026-06-10T15:55:31", "level": "INFO",  "message": "Deploy completed: version=v5.1.0, instances=4/4 healthy"},
+    {"timestamp": "2026-06-10T15:56:00", "level": "INFO",  "message": "Checkout completed: order_id=ORD-4423, latency=204ms"},
+    {"timestamp": "2026-06-10T15:58:00", "level": "INFO",  "message": "Checkout completed: order_id=ORD-4424, latency=209ms"},
+    {"timestamp": "2026-06-10T16:00:00", "level": "ERROR", "message": "DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=47)"},
+    {"timestamp": "2026-06-10T16:00:01", "level": "ERROR", "message": "DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=53)"},
+    {"timestamp": "2026-06-10T16:00:02", "level": "ERROR", "message": "DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=61)"},
+    {"timestamp": "2026-06-10T16:00:04", "level": "ERROR", "message": "DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=68)"},
+    {"timestamp": "2026-06-10T16:00:06", "level": "ERROR", "message": "DatabaseConnectionError: connection pool exhausted (pool_size=5, waiting=74)"}
+  ]
+}

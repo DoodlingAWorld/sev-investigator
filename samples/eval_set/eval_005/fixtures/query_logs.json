@@ -1,0 +1,15 @@
+{
+  "api-gateway": [
+    {"timestamp": "2026-06-11T14:28:00", "level": "INFO",  "message": "Request routed: GET /api/v1/user/profile → auth-service, latency=41ms"},
+    {"timestamp": "2026-06-11T14:29:00", "level": "INFO",  "message": "Request routed: POST /api/v1/orders → auth-service, latency=38ms"},
+    {"timestamp": "2026-06-11T14:30:00", "level": "WARNING",  "message": "auth-service request timed out: GET /api/v1/validate"},
+    {"timestamp": "2026-06-11T14:30:00", "level": "WARNING",  "message": "RetryHandler: retrying request to auth-service (attempt 2/5)"},
+    {"timestamp": "2026-06-11T14:30:01", "level": "WARNING",  "message": "RetryHandler: retrying request to auth-service (attempt 3/5)"},
+    {"timestamp": "2026-06-11T14:30:01", "level": "WARNING",  "message": "RetryHandler: retrying request to auth-service (attempt 4/5)"},
+    {"timestamp": "2026-06-11T14:30:02", "level": "ERROR", "message": "RetryHandler: max retries exceeded (5/5) for auth-service, returning 503"},
+    {"timestamp": "2026-06-11T14:30:02", "level": "WARNING",  "message": "auth-service request timed out: POST /api/v1/validate"},
+    {"timestamp": "2026-06-11T14:30:03", "level": "WARNING",  "message": "RetryHandler: retrying request to auth-service (attempt 2/5)"},
+    {"timestamp": "2026-06-11T14:30:04", "level": "ERROR", "message": "RetryHandler: max retries exceeded (5/5) for auth-service, returning 503"},
+    {"timestamp": "2026-06-11T14:30:05", "level": "ERROR", "message": "RetryHandler: max retries exceeded (5/5) for auth-service, returning 503"}
+  ]
+}

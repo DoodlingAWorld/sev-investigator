@@ -1,0 +1,11 @@
+{
+  "media-service": [
+    {
+      "changed_at": "2026-06-12T08:55:00",
+      "key": "max_upload_size_mb",
+      "old_value": "50",
+      "new_value": "500",
+      "changed_by": "platform-team"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "api-gateway": {
+    "error_rate": {
+      "unit": "percent",
+      "points": [
+        {"timestamp": "2026-06-11T14:25:00", "value": 0.4},
+        {"timestamp": "2026-06-11T14:27:00", "value": 0.5},
+        {"timestamp": "2026-06-11T14:29:00", "value": 0.4},
+        {"timestamp": "2026-06-11T14:30:00", "value": 59.8},
+        {"timestamp": "2026-06-11T14:31:00", "value": 60.2},
+        {"timestamp": "2026-06-11T14:32:00", "value": 60.1}
+      ]
+    }
+  },
+  "auth-service": {
+    "latency_p99": {
+      "unit": "ms",
+      "points": [
+        {"timestamp": "2026-06-11T14:25:00", "value": 271},
+        {"timestamp": "2026-06-11T14:27:00", "value": 284},
+        {"timestamp": "2026-06-11T14:29:00", "value": 276},
+        {"timestamp": "2026-06-11T14:30:00", "value": 289},
+        {"timestamp": "2026-06-11T14:31:00", "value": 312},
+        {"timestamp": "2026-06-11T14:32:00", "value": 341}
+      ]
+    },
+    "request_rate": {
+      "unit": "req/s",
+      "points": [
+        {"timestamp": "2026-06-11T14:25:00", "value": 12},
+        {"timestamp": "2026-06-11T14:27:00", "value": 11},
+        {"timestamp": "2026-06-11T14:29:00", "value": 13},
+        {"timestamp": "2026-06-11T14:30:00", "value": 118},
+        {"timestamp": "2026-06-11T14:31:00", "value": 124},
+        {"timestamp": "2026-06-11T14:32:00", "value": 121}
+      ]
+    }
+  }
+}

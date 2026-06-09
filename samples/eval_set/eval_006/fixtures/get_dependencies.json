@@ -1,0 +1,8 @@
+{
+  "media-service": [
+    {"name": "media-db",      "type": "database", "health": "healthy"},
+    {"name": "object-store",  "type": "service",  "health": "healthy"},
+    {"name": "cdn-edge",      "type": "service",  "health": "healthy"},
+    {"name": "transcoder",    "type": "service",  "health": "healthy"}
+  ]
+}
