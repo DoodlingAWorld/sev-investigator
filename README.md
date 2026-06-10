@@ -193,6 +193,14 @@ eval-004 and eval-005 have high variance because the critic fires inconsistently
 
 The real engineering contribution is not the aggregate number but the mechanism: **evidence-grounded critic patterns** that fire only when specific observations are present in the tool output. Without the "ONLY when: The EVIDENCE LIST contains..." constraint, the critic hallucinates triggers and fires on cases where it shouldn't. The reliable +7pp lift over baseline (62% → 70%) comes from cases where the critic correctly identifies an evidence gap and sends the agent back to fill it.
 
+**Known failure mode — eval-006 (latent bug):**
+
+eval-006 is the one adversarial case where reflection genuinely doesn't help (5/15 baseline → 6.2/15 mean). All the evidence needed to get this case right is collected on the first pass; the gap isn't missing evidence, it's that the synthesizer draws the wrong conclusion from evidence it already has (recommending a config revert instead of fixing the underlying non-streaming code).
+
+We tried adding a targeted "revise" pattern for this: *if the report recommends reverting a recently-changed config value AND the evidence shows a "loading file into memory" log line followed by an OOM error, reject the revert and point at the implementation bug instead.* In isolation this fixed eval-006 (mitigation_utility 0/3 → 3/3), but it caused severe regressions elsewhere — the critic overgeneralized "don't recommend reverting this config change" to eval-002 and eval-004, where reverting/restoring the changed config *is* the correct fix, dropping eval-004 from a mean of 10.4/15 to 2/15. Net effect was strongly negative, so the pattern was reverted.
+
+This is the same lesson as the evidence-grounded constraint work, one level up: an LLM critic doesn't reliably evaluate conjunctive conditions ("X AND Y") — it tends to fire on whichever clause is most salient and ignore the rest. A pattern that depends on both "what the report says" and "what specific evidence is present" is harder to scope safely than patterns based on evidence alone (Patterns 1–3). Fixing eval-006 properly likely needs either a structural change (e.g., a separate "evidence-grounding" pass that checks each mitigation against the evidence list item-by-item) or a stronger judge/critic model — not another prose pattern.
+
 ## Observability
 
 The agent observes itself. Every LLM call, tool call, and state transition emits a structured event to `traces/{run_id}.jsonl`:
