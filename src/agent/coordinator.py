@@ -20,21 +20,22 @@ _REPORTS_DIR = Path(__file__).parent.parent.parent / "reports"
 _console = Console()
 
 
-def run(incident: IncidentEvent, fixtures_dir: Path) -> InvestigationReport:
+def run(incident: IncidentEvent, fixtures_dir: Path, quiet: bool = False) -> InvestigationReport:
     """Run a full investigation: load skill, planner→executor loop, then synthesize."""
     set_fixtures_dir(fixtures_dir)
     try:
-        return _run(incident)
+        con = Console(quiet=quiet)
+        return _run(incident, con)
     finally:
         set_fixtures_dir(None)
 
 
-def _run(incident: IncidentEvent) -> InvestigationReport:
+def _run(incident: IncidentEvent, con: Console) -> InvestigationReport:
     skill = get_skill(incident.type)
     state = AgentState(incident = incident, skill_name = skill.name)
 
-    _console.print(f"\n[bold]sev-investigator[/bold] — {incident.title}")
-    _console.print(
+    con.print(f"\n[bold]sev-investigator[/bold] — {incident.title}")
+    con.print(
         f"[dim]id:[/dim] {incident.id}  "
         f"[dim]type:[/dim] {incident.type}  "
         f"[dim]severity:[/dim] {incident.severity}\n"
@@ -55,7 +56,7 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
         budget_exhausted = False
         while state.step_count < MAX_STEPS:
             decision = planner.run(state, skill, rec)
-            _console.print(
+            con.print(
                 f"[cyan][planner][/cyan]    → {decision.action}  "
                 f"[dim]{decision.reasoning[:80]}[/dim]"
             )
@@ -68,7 +69,7 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
                 break
 
             evidence = executor.run(decision.next_step, state, rec)
-            _console.print(
+            con.print(
                 f"[green][executor][/green]   → {evidence.tool}({_fmt_args(evidence.args)})"
             )
 
@@ -76,18 +77,18 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
             state.step_count += 1
         else:
             budget_exhausted = True
-            _console.print(
+            con.print(
                 f"\n[bold yellow][coordinator][/bold yellow] step budget exhausted "
                 f"({MAX_STEPS} steps) — synthesizing with partial evidence."
             )
 
-        _console.print("\n[yellow][synthesizer][/yellow] writing report...")
+        con.print("\n[yellow][synthesizer][/yellow] writing report...")
         report = synthesizer.run(state, rec)
 
         while state.reflection_rounds < MAX_REFLECTION_ROUNDS:
             critique = critic.run(state, report, rec)
             state.critiques.append(critique)
-            _console.print(
+            con.print(
                 f"[magenta][critic][/magenta]      → {critique.verdict}"
                 + (f"  [dim]{critique.issues[0][:80]}[/dim]" if critique.issues else "")
             )
@@ -100,20 +101,20 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
             if critique.verdict == "investigate_more" and state.step_count < MAX_STEPS:
                 while state.step_count < MAX_STEPS:
                     decision = planner.run(state, skill, rec, guidance = critique.guidance)
-                    _console.print(
+                    con.print(
                         f"[cyan][planner][/cyan]    → {decision.action}  "
                         f"[dim]{decision.reasoning[:80]}[/dim]"
                     )
                     if decision.action == "synthesize" or decision.next_step is None:
                         break
                     evidence = executor.run(decision.next_step, state, rec)
-                    _console.print(
+                    con.print(
                         f"[green][executor][/green]   → {evidence.tool}({_fmt_args(evidence.args)})"
                     )
                     state.evidence.append(evidence)
                     state.step_count += 1
             elif critique.verdict == "investigate_more":
-                _console.print(
+                con.print(
                     "[bold yellow][coordinator][/bold yellow] investigate_more requested "
                     "but step budget exhausted — revising with existing evidence."
                 )
@@ -144,7 +145,7 @@ def _run(incident: IncidentEvent) -> InvestigationReport:
         )
 
     _persist_report(report)
-    _console.print(f"\n[bold green]✓ Done[/bold green]  run_id={report.run_id}\n")
+    con.print(f"\n[bold green]✓ Done[/bold green]  run_id={report.run_id}\n")
     return report
 
 

@@ -47,13 +47,14 @@ def investigate(
 @app.command(name="eval")
 def eval_cmd(
     eval_dir: Path = typer.Argument(..., help="Directory containing eval cases"),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress per-step agent output"),
 ) -> None:
     """Score the agent against a labeled eval set using an LLM-as-judge."""
     if not eval_dir.exists():
         _console.print(f"[red]Error:[/red] eval directory not found: {eval_dir}")
         raise typer.Exit(1)
 
-    runner.run(eval_dir)
+    runner.run(eval_dir, quiet=quiet)
 
 
 if __name__ == "__main__":

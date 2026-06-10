@@ -1,23 +1,24 @@
 from __future__ import annotations
 
+import threading
 from datetime import datetime
 from pathlib import Path
 
-_fixtures_dir: Path | None = None
+_local = threading.local()
 
 
 def set_fixtures_dir(path: Path | None) -> None:
     """Point the mock tools at a specific incident's fixture directory. Pass None to reset."""
-    global _fixtures_dir
-    _fixtures_dir = path
+    _local.fixtures_dir = path
 
 
 def get_fixtures_dir() -> Path:
-    if _fixtures_dir is None:
+    path: Path | None = getattr(_local, "fixtures_dir", None)
+    if path is None:
         raise RuntimeError(
             "Fixtures directory not configured. Call set_fixtures_dir() before using tools."
         )
-    return _fixtures_dir
+    return path
 
 
 def to_naive(dt: datetime) -> datetime:

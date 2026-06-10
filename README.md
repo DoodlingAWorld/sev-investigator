@@ -166,40 +166,32 @@ Three main investigation scenarios plus six eval cases — three straightforward
 
 ## Eval results
 
-The harness scores each case against a reference report using an LLM-as-judge on five dimensions (0–3 each). Results with `MAX_REFLECTION_ROUNDS=2`:
+The harness scores each case against a reference report using an LLM-as-judge on five dimensions (0–3 each, 15 max per case). Results across 5 runs with `MAX_REFLECTION_ROUNDS=2`:
 
-```
-── eval_001 (eval-001 · deploy_related)
-   root_cause_accuracy=3  evidence_quality=3  hypothesis_completeness=3  mitigation_utility=3  hallucination=3  → 15/15
+| Case | Run 1 | Run 2 | Run 3 | Run 4 | Run 5 | Mean | Range |
+|---|---|---|---|---|---|---|---|
+| eval-001 (deploy_related) | 14 | 14 | 14 | 11 | 13 | **13.2** | 11–14 |
+| eval-002 (config_change) | 14 | 13 | 14 | 14 | 14 | **13.8** | 13–14 |
+| eval-003 (dependency_outage) | 14 | 14 | 13 | 14 | 14 | **13.8** | 13–14 |
+| eval-004 (deploy red herring) ← adv. | 13 | 7 | 11 | 13 | 8 | **10.4** | 7–13 |
+| eval-005 (retry storm) ← adv. | 3 | 10 | 6 | 3 | 5 | **5.4** | 3–10 |
+| eval-006 (latent bug) ← adv. | 7 | 6 | 6 | 6 | 6 | **6.2** | 6–7 |
+| **Aggregate** | 65 | 64 | 64 | 61 | 60 | **63/90 (70%)** | **60–65** |
 
-── eval_002 (eval-002 · config_change)
-   root_cause_accuracy=3  evidence_quality=3  hypothesis_completeness=3  mitigation_utility=2  hallucination=3  → 14/15
+**Reflection lift on adversarial cases** (rounds=0 baseline → rounds=2 mean):
 
-── eval_003 (eval-003 · dependency_outage)
-   root_cause_accuracy=3  evidence_quality=3  hypothesis_completeness=3  mitigation_utility=2  hallucination=3  → 14/15
-
-── eval_004 (eval-004 · deploy_related)   ← adversarial
-   root_cause_accuracy=3  evidence_quality=2  hypothesis_completeness=2  mitigation_utility=2  hallucination=2  → 11/15
-
-── eval_005 (eval-005 · dependency_outage)  ← adversarial
-   root_cause_accuracy=2  evidence_quality=2  hypothesis_completeness=2  mitigation_utility=2  hallucination=2  → 10/15
-
-── eval_006 (eval-006 · config_change)   ← adversarial
-   root_cause_accuracy=1  evidence_quality=2  hypothesis_completeness=1  mitigation_utility=0  hallucination=3  → 7/15
-
-Aggregate: 71/90 (78%)
-```
-
-**Reflection lift on adversarial cases** (rounds=0 → rounds=2):
-
-| Case | Without reflection | With reflection | Δ |
+| Case | Without reflection | With reflection (mean) | With reflection (best) |
 |---|---|---|---|
-| eval_004 (deploy red herring) | 6/15 | 11/15 | +5 |
-| eval_005 (retry storm) | 2/15 | 10/15 | +8 |
-| eval_006 (latent bug) | 5/15 | 7/15 | +2 |
-| **All 6 cases** | **56/90 (62%)** | **71/90 (78%)** | **+15** |
+| eval_004 (deploy red herring) | 6/15 | 10.4/15 | 13/15 |
+| eval_005 (retry storm) | 2/15 | 5.4/15 | 10/15 |
+| eval_006 (latent bug) | 5/15 | 6.2/15 | 7/15 |
+| **All 6 cases** | **56/90 (62%)** | **63/90 (70%)** | **65/90 (72%)** |
 
-LLM output is non-deterministic so individual runs vary; the improvement direction on adversarial cases is consistent across runs.
+**What the variance reveals:**
+
+eval-004 and eval-005 have high variance because the critic fires inconsistently — when it does fire, scores jump significantly (eval-005 goes from 2 to 10); when it doesn't, the base investigation gives the wrong answer. eval-006 is a different failure mode: the critic never fires on it because the case requires reasoning about a code-level streaming bug from a config change, and no critic pattern covers that. eval-001 through eval-003 are rock-steady at 13–14/15.
+
+The real engineering contribution is not the aggregate number but the mechanism: **evidence-grounded critic patterns** that fire only when specific observations are present in the tool output. Without the "ONLY when: The EVIDENCE LIST contains..." constraint, the critic hallucinates triggers and fires on cases where it shouldn't. The reliable +7pp lift over baseline (62% → 70%) comes from cases where the critic correctly identifies an evidence gap and sends the agent back to fill it.
 
 ## Observability
 
